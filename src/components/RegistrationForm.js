@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import axios from 'axios';
+import { client } from '../utils/clientUtil';
 import { faCheck, faTimes, faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import "../Styles/RegistrationForm.css";
@@ -46,8 +46,8 @@ function RegistrationForm() {
     }
 
 
-    axios
-      .post(baseURL, {
+    client
+      .post('/register', {
         username: user,
         password: pwd
       })

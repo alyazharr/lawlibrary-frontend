@@ -1,15 +1,16 @@
-import AuthContext from '../context/GlobalStates';
+
 import { Outlet, Navigate, useLocation } from 'react-router';
-import React, {useContext } from 'react';
+import { useAuth } from '../context/GlobalStates';
+
 
 const RequireAuth = () => {
-    const {authState} = useContext(AuthContext);
+    const {authState} = useAuth()
     const location = useLocation();
-
+    console.log(authState)
     return (
         authState?.username
                 ? <Outlet/>
-                : <Navigate to="/login" state={{ from: location }} replace />
+                : <Navigate to="/auth/login" state={{ from: location }} replace />
     );
 }
 

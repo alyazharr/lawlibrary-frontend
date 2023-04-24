@@ -1,34 +1,38 @@
-import axios from 'axios';
-import AuthContext from '../context/GlobalStates';
 import '../Styles/LoginForm.css'
-
+import {useNavigate, useLocation } from 'react-router-dom';
 import React, { useState, useEffect,useContext } from 'react';
+import { useAuth } from '../context/GlobalStates';
+import { client } from '../utils/clientUtil';
 function LoginForm() {
 
-  const {setAuthState} = useContext(AuthContext);
-  const baseURL = "http://localhost:8000/auth"
+  const {authState, setAuthState} = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
   const [user, setUser] = useState('');
 
   const [pwd, setPwd] = useState('');
 
   const [errMsg, setErrMsg] = useState('');
-  const [success, setSuccess] = useState(false);
 
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios
-      .post(baseURL, {
+    client
+      .post('/auth', {
         username: user,
         password: pwd
-      })
+      }, {
+        headers: { 'Content-Type': 'application/json' },
+        withCredentials: true
+    })
       .then((response) => {
         if (response.status == '200') {
-          setSuccess(true);
-          setAuthState({ username: user, password: pwd, refreshToken: response.data.refreshToken })
+          setAuthState({username: user, password: pwd, accessToken: response.data.accessToken })
+          console.log(authState);
           setUser('');
           setPwd('');
-          setSuccess(true);
+          navigate(from, { replace: true });
       
         }
       }).catch(err => {
@@ -45,6 +49,9 @@ function LoginForm() {
     console.log(e);
   }
 
+
+
+
   useEffect(() => {
     setErrMsg('');
   }, [user, pwd])
@@ -52,11 +59,7 @@ function LoginForm() {
 
   return (
     <div className='login'>
-      {success ? 
-        <section>
-          <div><p>login success</p></div>
-        </section>
-      :
+     
       <section className='login-form'>
       <p className={errMsg ? "errmsg" : "hide"} aria-live="assertive">{errMsg}</p>
       <form className='m-2' onSubmit={handleSubmit}>
@@ -96,7 +99,7 @@ function LoginForm() {
       </form>
 
     </section>
-      }
+  
     </div>
    
 

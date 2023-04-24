@@ -1,9 +1,15 @@
 import { useRef } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
 import "../Styles/Header.css";  
+import { Link, useNavigate } from "react-router-dom";
+import useLogout from "../utils/useLogout";
+import { useAuth } from "../context/GlobalStates";
 
 function Header() {
-    const navRef = useRef();
+    const navRef = useRef()
+    const logout = useLogout()
+    const navigate = useNavigate()
+    const {authState} = useAuth()
 
     const showNavbar = () => {
         navRef.current.classList.toggle(
@@ -11,17 +17,31 @@ function Header() {
         );
     };
 
+    const signOut = async () => {
+        await logout()
+        navigate('/auth/login')
+
+        
+    };
+
     return (
         <header>
             <h3><a href="/">LawLibrary</a></h3>
             <nav ref={navRef}>
-                <a href="/#">Profile</a>
+                <Link to={`/profile`}>Profile</Link>
                 <a href="/#">Book Review</a>
                 <a href="/#">Book Recommendation</a>
-                {/* {isLoggedIn
-                ? <a href="/login">Login</a>
-                : <a href="/login">Logout</a>
-            } */}
+                { !authState?.username ? <div>
+                    <Link to={`/auth/login`}>Login</Link>
+                    <Link to={`/auth/register`}>Register</Link>
+                </div>:
+                <div>
+                <button onClick={signOut} type="button" className="btn btn-primary">Logout</button>
+                </div>
+                }
+    
+
+        
                 
                 <button
                     className="nav-btn nav-close-btn"
