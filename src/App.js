@@ -1,11 +1,25 @@
 import React from 'react';
-import Header from './components/Header';
+import { Routes, Route, } from 'react-router-dom';
+import RegistrationForm from './components/RegistrationForm';
+import LoginForm from './components/LoginForm';
+import Layout from './components/Layout';
+
 
 function App() {
     return (
-            <div>
-                <Header></Header>
-            </div>
+        <Routes>
+            <Route path="/" element={< Layout />}>
+                    <Route
+                        path="auth/register"
+                        element={<RegistrationForm />}
+                    />
+                    <Route
+                        path="auth/login"
+                        element={<LoginForm/>}
+                    />
+
+            </Route>
+        </Routes>
     );
 }
 

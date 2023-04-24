@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
-import "../Styles/Header.css";
+import "../Styles/Header.css";  
 
 function Header() {
     const navRef = useRef();
@@ -18,6 +18,11 @@ function Header() {
                 <a href="/#">Profile</a>
                 <a href="/#">Book Review</a>
                 <a href="/#">Book Recommendation</a>
+                {/* {isLoggedIn
+                ? <a href="/login">Login</a>
+                : <a href="/login">Logout</a>
+            } */}
+                
                 <button
                     className="nav-btn nav-close-btn"
                     onClick={showNavbar}>
@@ -36,6 +41,10 @@ function Header() {
                 </form>
             </div>
         </header>
+        
+
+
+        
     );
 }
 

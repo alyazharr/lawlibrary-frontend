@@ -1,0 +1,21 @@
+.registration-form{
+    background-color: beige;
+    height: 100%;
+
+}
+
+.safe{
+    display:none;
+}
+
+.hide {
+    display: none;
+}
+
+.errmsg {
+    background-color: lightpink;
+    color: firebrick;
+    font-weight: bold;
+    padding: 0.5rem;
+    margin-bottom: 0.5rem;
+}
