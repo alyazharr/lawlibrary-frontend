@@ -1,9 +1,3 @@
-.registration-form{
-    background-color: beige;
-    height: 100%;
-
-}
-
 .safe{
     display:none;
 }
@@ -18,4 +12,30 @@
     font-weight: bold;
     padding: 0.5rem;
     margin-bottom: 0.5rem;
+}
+
+.hide {
+    display: none;
+}
+
+.register {
+    text-align: center;
+    height: 100vh;
+    display: flex; 
+    justify-content: center;
+    padding-top: 90px;
+    padding-bottom: 90px;
+    background-color: white;
+  }
+
+.register-form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 550px;
+    width: 35%;
+    box-shadow: 4px 4px 4px 4px rgb(207, 207, 207);
+    padding-top: 30px;
+    border-radius: 60px; 
+    background-color: cadetblue;
 }

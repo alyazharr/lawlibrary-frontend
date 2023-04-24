@@ -2,21 +2,24 @@
     display: none;
 }
 
-.main {
+.login {
     text-align: center;
-    justify-content: center;
+    height: 100vh;
     display: flex; 
+    justify-content: center;
     padding-top: 90px;
     padding-bottom: 90px;
-    background-color: #364b9e;
+    background-color: white;
   }
-.sub-main {
+
+.login-form{
     display: flex;
     justify-content: center;
     height: 550px;
     width: 35%;
-    box-shadow: 11px 12px 13px 12px rgb(207, 207, 207);
+    box-shadow: 4px 4px 4px 4px rgb(207, 207, 207);
     padding-top: 30px;
     border-radius: 60px; 
-    background-color: white;
-  }
+    background-color: cadetblue;
+    flex-direction: column;
+}

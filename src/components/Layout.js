@@ -3,7 +3,7 @@ import { Outlet } from "react-router"
 import '../Styles/Layout.css'
 const Layout = () => {
     return (
-    <div className="main">
+    <div className="layout">
  
         <Header/>
         <Outlet/>

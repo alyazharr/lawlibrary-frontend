@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { faCheck, faTimes, faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import "../Styles/RegistrationForm.css";
 
 function RegistrationForm() {
@@ -30,9 +29,7 @@ function RegistrationForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(validName)
-    console.log(validMatch)
-    console.log(validPwd)
+   
 
     const validUsername = USER_REGEX.test(user);
     const validPassword = PWD_REGEX.test(pwd);
@@ -93,13 +90,13 @@ function RegistrationForm() {
 
   return (
 
-    <div>
+    <div className='register'>
       {success ? (<section>
 
       <p> success</p>
       </section>) :
 
-        <section className='registration-form'>
+        <section className='register-form'>
           <p className={errMsg ? "errmsg" : "hide"} aria-live="assertive">{errMsg}</p>
           <form className='m-2' onSubmit={handleSubmit}>
             <h3>Sign Up</h3>
@@ -113,6 +110,7 @@ function RegistrationForm() {
                 type="text"
                 id='username'
                 value={user}
+                autoComplete='off'
                 onChange={(e) => setUser(e.target.value)}
                 required
                 className="form-control"

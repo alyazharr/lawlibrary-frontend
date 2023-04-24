@@ -1,7 +1,7 @@
 import axios from 'axios';
-import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import AuthContext from '../context/GlobalStates';
 import '../Styles/LoginForm.css'
+
 import React, { useState, useEffect,useContext } from 'react';
 function LoginForm() {
 
@@ -51,7 +51,7 @@ function LoginForm() {
 
 
   return (
-    <div className='body'>
+    <div className='login'>
       {success ? 
         <section>
           <div><p>login success</p></div>
@@ -60,8 +60,8 @@ function LoginForm() {
       <section className='login-form'>
       <p className={errMsg ? "errmsg" : "hide"} aria-live="assertive">{errMsg}</p>
       <form className='m-2' onSubmit={handleSubmit}>
-        <h3>Sign Up</h3>
-        <div className="mb-3">
+        <h3>Sign In</h3>
+        <div className="mb-4">
           <label htmlFor='username'>Username</label>
           <input
             type="text"
@@ -73,7 +73,7 @@ function LoginForm() {
             placeholder="Enter username"
           />
         </div>
-        <div className="mb-3">
+        <div className="mb-4">
           <label htmlFor='password'>Password</label>
           <input
             id='password'
