@@ -4,6 +4,7 @@ import RegistrationForm from './components/RegistrationForm';
 import LoginForm from './components/LoginForm';
 import Layout from './components/Layout';
 import Home from './components/Home';
+import Search from './components/Search';
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
 import RequireAuth from './utils/RequireAuth';
@@ -12,6 +13,7 @@ import TargetReminderForm from './components/TargetReminderForm';
 import DetailTargetReminder from './components/DetailTargetReminder';
 import DetailBuku from './components/DetailBuku';
 import PersistLogin from './components/PersistLogin';
+
 
 
 
@@ -47,6 +49,11 @@ function App() {
                             element={<DetailBuku />}
                         />
                 </Route>
+                {/* belum ditambahin auth guys */}
+                <Route
+                    path="books/search"
+                    element={<Search />}
+                        />
 
                 {/*protected routes*/}
                 <Route element={<PersistLogin />}>

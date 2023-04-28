@@ -31,6 +31,7 @@ function Header() {
                 <Link to={`/profile`}>Profile</Link>
                 <a href="/#">Book Review</a>
                 <a href="/#">Book Recommendation</a>
+                <Link to={`/books/search`}>Book Search</Link>
                 { !authState?.username ? <div>
                     <Link to={`/auth/login`}>Login</Link>
                     <Link to={`/auth/register`}>Register</Link>
