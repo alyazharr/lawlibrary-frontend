@@ -26,7 +26,7 @@ function Header() {
 
     return (
         <header>
-            <h3><a href="/">LawLibrary</a></h3>
+            <h3><a href="/home">LawLibrary</a></h3>
             <nav ref={navRef}>
                 <Link to={`/profile`}>Profile</Link>
                 <a href="/#">Book Review</a>
