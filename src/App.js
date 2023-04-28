@@ -13,6 +13,7 @@ import TargetReminderForm from './components/TargetReminderForm';
 import DetailTargetReminder from './components/DetailTargetReminder';
 import DetailBuku from './components/DetailBuku';
 import PersistLogin from './components/PersistLogin';
+import Stock from "./components/Stock";
 
 
 
@@ -47,6 +48,10 @@ function App() {
                 <Route
                             path="detailBuku/:id"
                             element={<DetailBuku />}
+                        />
+                <Route
+                            path="detailBuku/:id/stok"
+                            element={<Stock />}
                         />
                 </Route>
                 {/* belum ditambahin auth guys */}

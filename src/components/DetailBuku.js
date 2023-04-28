@@ -28,6 +28,7 @@ const DetailBuku = () => {
         <h3>ISBN: {bok.isbn}</h3>
         <h3>Publication Year: {bok.publication_year}</h3>
         <h3>Publisher: {bok.publisher}</h3>
+        <h3>Stock: {bok.stok}</h3>
         <div className={classes.item}>
         <Link to="/home"><button className="btn btn-secondary">
               Back 
