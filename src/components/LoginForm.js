@@ -1,6 +1,6 @@
 import '../Styles/LoginForm.css'
 import {useNavigate, useLocation } from 'react-router-dom';
-import React, { useState, useEffect,useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/GlobalStates';
 import { client } from '../utils/clientUtil';
 function LoginForm() {
@@ -28,7 +28,7 @@ function LoginForm() {
     })
       .then((response) => {
         if (response.status == '200') {
-          setAuthState({username: user, password: pwd, accessToken: response.data.accessToken })
+          setAuthState({username: user, password: pwd,accessToken: response.data.accessToken })
           console.log(authState);
           setUser('');
           setPwd('');

@@ -6,7 +6,6 @@ import { useAuth } from '../context/GlobalStates';
 const RequireAuth = () => {
     const {authState} = useAuth()
     const location = useLocation();
-    console.log(authState)
     return (
         authState?.username
                 ? <Outlet/>
