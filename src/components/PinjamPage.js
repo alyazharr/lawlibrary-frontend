@@ -4,10 +4,10 @@ import React, { useState, useEffect,useContext } from 'react';
 import classes from '../context/TargetReminder.module.css'
 import {useAxiosPrivate} from '../utils/clientUtil';
 
-function TargetReminderForm(props) {
+function PinjamPage(props) {
   const PrivateAxios = useAxiosPrivate()
   const idbook = useParams();
-  const [tglselesai, settglselesai] = useState('');
+  const [reminder, setreminder] = useState(false);
   const [book, setbook] = useState([])
   const [errMsg, setErrMsg] = useState('');
   const navigate = useNavigate();
@@ -26,20 +26,27 @@ function TargetReminderForm(props) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (tglselesai < getCurrentDate2()){
-        setErrMsg("Tanggal selesai membaca tidak valid. Tanggal yang diisi tidak boleh sebelum tanggal mulai membaca.")
+    let selesai = getTglSelesai()
+    if (book.stock == 0){
+        setErrMsg("Buku tidak tersedia untuk dipinjam.")
     } else {
         setErrMsg('')
     try {
-        const url = 'http://127.0.0.1:8080/book/target-reminder?idbuku='+idbook.id+'&selesai='+tglselesai
-        const res = await PrivateAxios.post(url)
-      .catch(error => {
-          console.log("API Review not catching data", error)
-      });
-        if (res.status === 200) {
-          navigate('/detailtargetreminder/'+res['data'][1][0]['id']+'/'+idbook.id)
-        } else {
+        if (reminder){
+                let url = 'http://127.0.0.1:8080/book/target-reminder?idbuku='+idbook.id+'&selesai='+selesai
+                let res = await PrivateAxios.post(url)
+                if (res.status === 200) {
+                    console.log('Reminder Success')
+                } else {
+                }
         }
+            let url = 'http://127.0.0.1:8080/book/konfirmasi-pinjam?idbuku='+idbook.id+'&selesai='+selesai
+            const res = await PrivateAxios.post(url)
+            if (res.status === 200) {
+                // update stok
+                navigate('/detailpeminjaman/'+res['data'][1][0]['id']+'/'+idbook.id)
+            } else {
+            }
       } catch (err) {
         console.log(err);
       }
@@ -48,7 +55,7 @@ function TargetReminderForm(props) {
 
   return (
     <div className={classes.content}>
-    <h1>Target Membaca</h1>
+    <h1>Pinjam Buku</h1>
     <br></br>
         <div key={book.id}>
       <img className={classes.img} src={book.image_url_l}></img>
@@ -57,20 +64,15 @@ function TargetReminderForm(props) {
         <h2>{book.title}</h2>
         <div className={classes.item}>
             <hr></hr>
-        <h4>Tanggal Mulai Membaca:</h4>
-        <h4>{getCurrentDate()}</h4>
         </div>
         <div className={classes.item}>
-          <h4 htmlFor='username'>Tanggal Target Selesai:</h4>
           <div className={classes.formdate}>
-           <input
-            type="date"
-            id='tglselesai'
-            onChange={(e) => settglselesai(e.target.value)}
-            required
-            value={tglselesai}
-            className="form-control"
-          />
+          <input 
+          type="checkbox" 
+          id="reminder" 
+          name="reminder"
+          onChange={() => setreminder(!reminder)}
+          value={reminder} />  Kirim reminder membaca
            </div>
         </div>
         <div className={classes.item}>
@@ -83,7 +85,7 @@ function TargetReminderForm(props) {
             </button>
             </Link>
           <button type="submit" className="btn btn-primary">
-            Submit
+            Konfirmasi Pinjam
           </button>
         </div>
       </form>
@@ -92,21 +94,14 @@ function TargetReminderForm(props) {
   )
 }
 
-function getCurrentDate(separator='-'){
+function getTglSelesai(separator='-'){
     let newDate = new Date()
+    newDate.setDate(newDate.getDate()+7);
     let date = newDate.getDate();
     let month = newDate.getMonth() + 1;
     let year = newDate.getFullYear();
     
-    return `${date}${separator}${month<10?`0${month}`:`${month}`}${separator}${year}`
-}
-function getCurrentDate2(separator='-'){
-    let newDate = new Date()
-    let date = newDate.getDate();
-    let month = newDate.getMonth() + 1;
-    let year = newDate.getFullYear();
-    
-    return `${year}${separator}${month<10?`0${month}`:`${month}`}${separator}${date}`
+    return `${year}${separator}${month<10?`0${month}`:`${month}`}${separator}${date<10?`0${date}`:`${date}`}`
 }
 
-export default TargetReminderForm
+export default PinjamPage

@@ -10,7 +10,7 @@ const DetailTargetReminder = () => {
   const [mulai, setmulai] = useState([])
   
   const fetchdata = async () => {
-    const url = "http://127.0.0.1:8080/book/get-targetreminder?id=" + params.id
+    const url = "http://127.0.0.1:8080/book/get-peminjaman?id=" + params.id
     const response = await fetch(url)
     const datas = await response.json()
     setdata(Object.values(datas)[0])
@@ -31,14 +31,14 @@ const DetailTargetReminder = () => {
   return (
       <div className={classes.content}>
       <div>
-        <h1>Berhasil memulai target membaca!</h1>
+        <h1>Berhasil Melakukan Konfirmasi Peminjaman!</h1>
         <hr></hr>
         <h1>{book.title}</h1>
       <img className={classes.img} src={book.image_url_l} style={{ margin:'5px', padding:'10px'}}></img>
         <h3>Author: {book.author}</h3>
-        <h3>Mulai membaca: {mulai}</h3>
-        <h3>Target selesai: {data.selesai}</h3>
-        <h3>Sisa waktu membaca: {getSelisih(mulai, data.selesai)} hari</h3>
+        <h3>Tanggal peminjaman: {mulai}</h3>
+        <h3>Tanggal pengembalian: {data.selesai}</h3>
+        <h3>Sisa waktu peminjaman: {getSelisih(mulai, data.selesai)} hari</h3>
         <div className={classes.item}>
         <Link to="/home"><button className="btn btn-secondary">
               Back 
