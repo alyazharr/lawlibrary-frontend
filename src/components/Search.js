@@ -1,7 +1,7 @@
 import '../Styles/Layout.css'
 import Header from "./Header"
 import React, { Component } from 'react'
-import { API_SEARCH_TITLE, API_SEARCH_AUTHOR } from '../utils/searchConstant'
+import { API_SEARCH_TITLE, API_SEARCH_AUTHOR, API_SEARCH_ISBN } from '../utils/searchConstant'
 import axios from 'axios'
 import { Row, Col, Container, Button, Form, Card } from 'react-bootstrap'
 import classes from '../context/Card.module.css'
@@ -16,14 +16,17 @@ export default class Search extends Component {
         this.state = {
             searchQueryTitle: "",
             searchQueryAuthor: "",
+            searchQueryISBN: "",
             booksResult: [],
             currentPage: 1,
             itemsPerPage: 10,
         }
         this.handleInputChangeTitle = this.handleInputChangeTitle.bind(this);
         this.handleInputChangeAuthor = this.handleInputChangeAuthor.bind(this);
+        this.handleInputChangeISBN = this.handleInputChangeISBN.bind(this);
         this.handleFormSubmitTitle = this.handleFormSubmitTitle.bind(this);
         this.handleFormSubmitAuthor = this.handleFormSubmitAuthor.bind(this);
+        this.handleFormSubmitISBN = this.handleFormSubmitISBN.bind(this);
         this.handlePageChange = this.handlePageChange.bind(this);
     }
 
@@ -32,6 +35,7 @@ export default class Search extends Component {
         const value = target.value;
         this.setState({ searchQueryTitle: value });
         this.setState({ searchQueryAuthor: '' });
+        this.setState({ searchQueryISBN: '' });
     }
 
     handleInputChangeAuthor(event) {
@@ -39,7 +43,15 @@ export default class Search extends Component {
         const value = target.value;
         this.setState({ searchQueryAuthor: value });
         this.setState({ searchQueryTitle: '' });
+        this.setState({ searchQueryISBN: '' });
+    }
 
+    handleInputChangeISBN(event){
+        const target = event.target;
+        const value = target.value;
+        this.setState({ searchQueryISBN: value });
+        this.setState({ searchQueryAuthor: '' });
+        this.setState({ searchQueryTitle: '' });
     }
 
     handleFormSubmitTitle(event) {
@@ -59,6 +71,19 @@ export default class Search extends Component {
         event.preventDefault();
         const query = this.state.searchQueryAuthor;
         axios.get(API_SEARCH_AUTHOR + `?author=${query}`)
+            .then(res => {
+                const bookRes = res.data;
+                this.setState({ booksResult: bookRes });
+            })
+            .catch(error => {
+                console.log("API not catching data", error)
+            })
+    }
+
+    handleFormSubmitISBN(event){
+        event.preventDefault();
+        const query = this.state.searchQueryISBN;
+        axios.get(API_SEARCH_ISBN + `?isbn=${query}`)
             .then(res => {
                 const bookRes = res.data;
                 this.setState({ booksResult: bookRes });
@@ -107,14 +132,37 @@ export default class Search extends Component {
                                 </Form>
 
                             </Row>
+                            <Row className='justify-content-center'>
+                                <Form onSubmit={this.handleFormSubmitISBN} className="d-flex align-items-center w-50">
+                                    <Form.Label htmlFor="searchISBN" className="mr-sm-2">Search By ISBN</Form.Label>
+                                    <Form.Control type="text" id="searchISBN" value={this.state.searchQueryISBN}
+                                        onChange={this.handleInputChangeISBN}
+                                        placeholder="Search by book ISBN" className="flex-grow-1 mr-2" style={{ maxWidth: "calc(100% - 4rem)" }} />
+                                    <Button type="submit" className="btn-icon-search w-auto">
+                                        <FontAwesomeIcon icon={faSearch} /></Button>
+                                </Form>
+
+                            </Row>
                             <Row>
                                 <Col>
                                     <br></br>
-                                    {this.state.searchQueryTitle != '' ?
+                                    {/* {this.state.searchQueryTitle != '' ?
                                         <h6 className='text-muted'> Results from search <strong>{this.state.searchQueryTitle} ...</strong></h6>
                                         :
                                         <h6 className='text-muted'> Results from search <strong>{this.state.searchQueryAuthor} ...</strong></h6>
-                                    }
+                                    } */}
+
+                                    {this.state.searchQueryTitle !== '' && (
+                                    <h6 className='text-muted'>Results from search <strong>{this.state.searchQueryTitle} ...</strong></h6>
+                                    )}
+
+                                    {this.state.searchQueryAuthor !== '' && (
+                                    <h6 className='text-muted'>Results from search <strong>{this.state.searchQueryAuthor} ...</strong></h6>
+                                    )}
+
+                                    {this.state.searchQueryISBN !== '' && (
+                                    <h6 className='text-muted'>Results from search <strong>{this.state.searchQueryISBN} ...</strong></h6>
+                                    )}
 
                                     <hr />
                                     <Row>
