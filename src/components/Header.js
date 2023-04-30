@@ -29,7 +29,8 @@ function Header() {
             <h3><a href="/home">LawLibrary</a></h3>
             <nav ref={navRef}>
                 <Link to={`/profile`}>Profile</Link>
-                <a href="/#">Book Review</a>
+                <Link to={`/my-reviews`}>My Review</Link> 
+                <Link to={`/reviews`}>Book Review</Link>
                 <a href="/#">Book Recommendation</a>
                 <Link to={`/books/search`}>Book Search</Link>
                 { !authState?.username ? <div>

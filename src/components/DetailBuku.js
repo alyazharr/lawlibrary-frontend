@@ -40,6 +40,12 @@ const DetailBuku = () => {
               Mulai Target Membaca 
             </button>
             </Link>
+            <Link to={{                            
+    pathname:`/reviews/book/${bok.id}`,                            
+   }}><button className="btn btn-secondary">
+              Book Review 
+            </button>
+            </Link>
         </div>
      <div className={classes.item}>
      <Link to={{                            
