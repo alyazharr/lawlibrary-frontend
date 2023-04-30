@@ -1,5 +1,4 @@
 import '../Styles/Layout.css'
-import Header from "./Header"
 import React, { Component } from 'react'
 import { API_SEARCH_TITLE, API_SEARCH_AUTHOR, API_SEARCH_ISBN } from '../utils/searchConstant'
 import axios from 'axios'
@@ -104,17 +103,15 @@ export default class Search extends Component {
 
         return (
             <div className="layout">
-                <Header />
-
                 <div className={classes.content}>
                     <div>
                         <Container>
                             <Row>
-                                <strong><h2 className='mb-4'>Search Book</h2></strong>
+                                <strong><h1 className='mb-4'>Search Book</h1></strong>
                             </Row>
                             <Row>
                                 <Form onSubmit={this.handleFormSubmitTitle} className="d-flex align-items-center w-50">
-                                    <Form.Label htmlFor="searchTitle" className="mr-sm-2">Search By Book Title</Form.Label>
+                                    <Form.Label htmlFor="searchTitle" className="mr-sm-2">Search By Title</Form.Label>
                                     <Form.Control type="text" id="searchTitle" value={this.state.searchQueryTitle}
                                         onChange={this.handleInputChangeTitle}
                                         placeholder="Search by book title" className="flex-grow-1 mr-2" style={{ maxWidth: "calc(100% - 4rem)" }} />
@@ -123,7 +120,7 @@ export default class Search extends Component {
                                 </Form>
 
                                 <Form onSubmit={this.handleFormSubmitAuthor} className="d-flex align-items-center w-50">
-                                    <Form.Label htmlFor="searchAuthor" className="mr-sm-2">Search By Book Author</Form.Label>
+                                    <Form.Label htmlFor="searchAuthor" className="mr-sm-2">Search By Author</Form.Label>
                                     <Form.Control type="text" id="searchAuthor" value={this.state.searchQueryAuthor}
                                         onChange={this.handleInputChangeAuthor}
                                         placeholder="Search by book author" className="flex-grow-1 mr-2" style={{ maxWidth: "calc(100% - 4rem)" }} />
@@ -146,12 +143,6 @@ export default class Search extends Component {
                             <Row>
                                 <Col>
                                     <br></br>
-                                    {/* {this.state.searchQueryTitle != '' ?
-                                        <h6 className='text-muted'> Results from search <strong>{this.state.searchQueryTitle} ...</strong></h6>
-                                        :
-                                        <h6 className='text-muted'> Results from search <strong>{this.state.searchQueryAuthor} ...</strong></h6>
-                                    } */}
-
                                     {this.state.searchQueryTitle !== '' && (
                                     <h6 className='text-muted'>Results from search <strong>{this.state.searchQueryTitle} ...</strong></h6>
                                     )}
