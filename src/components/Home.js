@@ -13,7 +13,7 @@ const Home = () => {
     const itemsPerPage = 20;
 
     const fetchBooks = async () => {
-        const response = await fetch("http://127.0.0.1:8000/book/get-books")
+        const response = await fetch("http://127.0.0.1:8080/book/get-books")
         const Books = await response.json()
         setBooks(Books)
     }

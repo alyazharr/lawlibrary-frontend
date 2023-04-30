@@ -11,12 +11,11 @@ import RequireAuth from './utils/RequireAuth';
 import Profile from './components/Profile';
 import TargetReminderForm from './components/TargetReminderForm';
 import DetailTargetReminder from './components/DetailTargetReminder';
+import DetailPeminjaman from './components/DetailPeminjaman';
 import DetailBuku from './components/DetailBuku';
+import PinjamPage from './components/PinjamPage';
 import PersistLogin from './components/PersistLogin';
 import Stock from "./components/Stock";
-
-
-
 
 {/*naro routing disini ya gaes*/ }
 function App() {
@@ -39,14 +38,6 @@ function App() {
                     />
                     {/* belum ditambahin auth guys */}
                     <Route
-                        path="targetreminderform/:id"
-                        element={<TargetReminderForm />}
-                    />
-                    <Route
-                        path="detailtargetreminder/:id/:idbuku"
-                        element={<DetailTargetReminder />}
-                    />
-                    <Route
                         path="detailBuku/:id"
                         element={<DetailBuku />}
                     />
@@ -54,12 +45,11 @@ function App() {
                         path="detailBuku/:id/stok"
                         element={<Stock />}
                     />
-                </Route>
                 {/* belum ditambahin auth guys */}
                 <Route
                     path="books/search"
                     element={<Search />}
-                />
+                    />
 
                 {/*protected routes*/}
 
@@ -67,7 +57,24 @@ function App() {
                     <Route
                         path="profile"
                         element={<Profile />}
+                        />
+                    <Route
+                        path="targetreminderform/:id"
+                        element={<TargetReminderForm />}
+                        />
+                    <Route
+                        path="detailtargetreminder/:id/:idbuku"
+                        element={<DetailTargetReminder />}
+                        />
+                    <Route
+                            path="detailpeminjaman/:id/:idbuku"
+                            element={<DetailPeminjaman />}
+                        />
+                    <Route
+                        path="pinjam/:id"
+                        element={<PinjamPage />}
                     />
+                    </Route>
 
                 </Route>
             </Route>
