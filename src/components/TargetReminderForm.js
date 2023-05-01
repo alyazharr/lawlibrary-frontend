@@ -13,7 +13,7 @@ function TargetReminderForm(props) {
   const navigate = useNavigate();
   
   const fetchbook = async () => {
-    const url = "http://34.72.52.78//book/get-book-by-id?id=" + idbook.id
+    const url = "http://34.72.52.78/book/get-book-by-id?id=" + idbook.id
     const response = await fetch(url)
     const buku = await response.json()
     setbook(Object.values(buku)[0])
@@ -31,7 +31,7 @@ function TargetReminderForm(props) {
     } else {
         setErrMsg('')
     try {
-        const url = 'http://34.72.52.78//book/target-reminder?idbuku='+idbook.id+'&targetdate='+tglselesai
+        const url = 'http://34.72.52.78/book/target-reminder?idbuku='+idbook.id+'&targetdate='+tglselesai
         const res = await PrivateAxios.post(url)
       .catch(error => {
           console.log("API Review not catching data", error)

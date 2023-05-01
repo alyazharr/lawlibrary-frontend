@@ -13,7 +13,7 @@ function PinjamPage(props) {
   const navigate = useNavigate();
   
   const fetchbook = async () => {
-    const url = "http://34.72.52.78//book/get-book-by-id?id=" + idbook.id
+    const url = "http://34.72.52.78/book/get-book-by-id?id=" + idbook.id
     const response = await fetch(url)
     const buku = await response.json()
     setbook(Object.values(buku)[0])
