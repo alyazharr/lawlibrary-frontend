@@ -15,6 +15,7 @@ import {useAxiosPrivate} from '../utils/clientUtil';
     const itemsPerPage = 20;
 
     const fetchpeminjaman = async () => {
+      try {
         const response = await PrivateAxios.get("http://127.0.0.1:8080/book/get-peminjaman-user")
         // const peminjaman = await response.json()
         if (response.status === 200) {
@@ -22,6 +23,8 @@ import {useAxiosPrivate} from '../utils/clientUtil';
 
           console.log(peminjaman)
       }
+    } catch {
+    }
 
     }
     const fetchtargetreminder = async () => {
@@ -34,13 +37,6 @@ import {useAxiosPrivate} from '../utils/clientUtil';
       }
 
     }
-
-    // const fetchbook = async () => {
-    //   const url = "http://127.0.0.1:8080/book/get-book-by-id?id=" + idbook.id
-    //   const response = await fetch(url)
-    //   const books = await response.json()
-    //   setbooks(books)
-    //   }
 
     useEffect(() => {
         fetchpeminjaman()
@@ -63,6 +59,7 @@ import {useAxiosPrivate} from '../utils/clientUtil';
             <div className={classes.content}>
                 <h1>Daftar Peminjaman</h1>
                 <br></br>
+                {peminjaman == '' ? <h2>Belum ada riwayat peminjaman</h2>:null}
                 <div className="d-flex flex-wrap">
                     {displayedBooks.map((peminjaman) => (
 
@@ -74,10 +71,10 @@ import {useAxiosPrivate} from '../utils/clientUtil';
                                     {peminjaman['buku'][0].author}
                                 </Card.Text>
                                 <Card.Text>
-                                    Tanggal Meminjam: {peminjaman.created_at.slice(0,10)}
+                                    Tanggal Meminjam: {peminjaman.start_date.slice(0,10)}
                                 </Card.Text>
                                 <Card.Text>
-                                    Tanggal Selesai: {peminjaman.selesai}
+                                    Tanggal Selesai: {peminjaman.return_date}
                                 </Card.Text>
                                 <Link to={{
                                     pathname: `/profiledetailpeminjaman/${peminjaman.id}/${peminjaman.id_buku}`,
@@ -95,6 +92,7 @@ import {useAxiosPrivate} from '../utils/clientUtil';
             <div className={classes.content}>
                 <h1>Daftar Target Membaca</h1>
                 <br></br>
+                {targetreminder == '' ? <h2>Belum ada riwayat target membaca</h2>:null}
                 <div className="d-flex flex-wrap">
                     {targetreminder.map((targetmembaca) => (
 
@@ -106,10 +104,10 @@ import {useAxiosPrivate} from '../utils/clientUtil';
                                     {targetmembaca['buku'][0].author}
                                 </Card.Text>
                                 <Card.Text>
-                                    Tanggal Mulai: {targetmembaca.created_at.slice(0,10)}
+                                    Tanggal Mulai: {targetmembaca.start_date.slice(0,10)}
                                 </Card.Text>
                                 <Card.Text>
-                                    Target Selesai: {targetmembaca.selesai}
+                                    Target Selesai: {targetmembaca.target_date}
                                 </Card.Text>
                                 <Link to={{
                                     pathname: `/profiledetailtargetreminder/${targetmembaca.id}/${targetmembaca.id_buku}`,

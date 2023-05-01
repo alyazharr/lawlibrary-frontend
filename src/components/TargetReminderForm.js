@@ -31,7 +31,7 @@ function TargetReminderForm(props) {
     } else {
         setErrMsg('')
     try {
-        const url = 'http://127.0.0.1:8080/book/target-reminder?idbuku='+idbook.id+'&selesai='+tglselesai
+        const url = 'http://127.0.0.1:8080/book/target-reminder?idbuku='+idbook.id+'&targetdate='+tglselesai
         const res = await PrivateAxios.post(url)
       .catch(error => {
           console.log("API Review not catching data", error)

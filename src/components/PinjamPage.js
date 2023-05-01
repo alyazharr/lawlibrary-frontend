@@ -33,14 +33,14 @@ function PinjamPage(props) {
         setErrMsg('')
     try {
         if (reminder){
-                let url = 'http://127.0.0.1:8080/book/target-reminder?idbuku='+idbook.id+'&selesai='+selesai
+                let url = 'http://127.0.0.1:8080/book/target-reminder?idbuku='+idbook.id+'&targetdate='+selesai
                 let res = await PrivateAxios.post(url)
                 if (res.status === 200) {
                     console.log('Reminder Success')
                 } else {
                 }
         }
-            let url = 'http://127.0.0.1:8080/book/konfirmasi-pinjam?idbuku='+idbook.id+'&selesai='+selesai
+            let url = 'http://127.0.0.1:8080/book/konfirmasi-pinjam?idbuku='+idbook.id+'&returndate='+selesai
             const res = await PrivateAxios.post(url)
             if (res.status === 200) {
                 // update stok
