@@ -28,7 +28,9 @@ function LoginForm() {
     })
       .then((response) => {
         if (response.status == '200') {
+          console.log(response.data)
           setAuthState({username: user, password: pwd,accessToken: response.data.accessToken })
+          localStorage.setItem('refreshToken',response.data.refreshToken)
           console.log(authState);
           setUser('');
           setPwd('');

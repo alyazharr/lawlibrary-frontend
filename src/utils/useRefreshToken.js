@@ -4,8 +4,8 @@ const useRefreshToken = () => {
     const {setAuthState} = useAuth()
 
     const refresh = async () => {
-        const response = await client.get('/refresh', {
-            withCredentials: true
+        const response = await client.post('/refresh', {
+            refreshToken : localStorage.getItem('refreshToken')
         });
         // console.log(response)
         setAuthState(prev => {
