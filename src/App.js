@@ -17,6 +17,9 @@ import DetailPeminjaman from './components/DetailPeminjaman';
 import DetailBuku from './components/DetailBuku';
 import PinjamPage from './components/PinjamPage';
 import PersistLogin from './components/PersistLogin';
+import ReviewPage from './components/ReviewPage';
+import ReviewDetail from './components/ReviewDetail';
+import MyReview from './components/MyReview';
 import Stock from "./components/Stock";
 
 {/*naro routing disini ya gaes*/ }
@@ -47,28 +50,47 @@ function App() {
                         path="detailBuku/:id/stok"
                         element={<Stock />}
                     />
-                {/* belum ditambahin auth guys */}
-                <Route
-                    path="books/search"
-                    element={<Search />}
+                    <Route
+                        path="books/search"
+                        element={<Search />}
                     />
 
-                {/*protected routes*/}
+                    {/*protected routes*/}
 
-                <Route element={<RequireAuth />}>
-                    <Route
-                        path="profile"
-                        element={<Profile />}
+                    <Route element={<RequireAuth />}>
+                        <Route
+                            path="profile"
+                            element={<Profile />}
                         />
-                    <Route
-                        path="targetreminderform/:id"
-                        element={<TargetReminderForm />}
+                        <Route
+                            path="reviews"
+                            element={<ReviewPage />}
                         />
-                    <Route
-                        path="detailtargetreminder/:id/:idbuku"
-                        element={<DetailTargetReminder />}
+                        <Route
+                            path="reviews/book/:id"
+                            element={<ReviewDetail />}
                         />
-                    <Route
+                        <Route
+                            path="reviews/update/:id"
+                            element={<MyReview />}
+                        />
+                        <Route
+                            path="reviews/delete/:id"
+                            element={<MyReview />}
+                        />
+                        <Route
+                            path="my-reviews/"
+                            element={<MyReview />}
+                        />
+                        <Route
+                            path="targetreminderform/:id"
+                            element={<TargetReminderForm />}
+                        />
+                        <Route
+                            path="detailtargetreminder/:id/:idbuku"
+                            element={<DetailTargetReminder />}
+                        />
+                        <Route
                             path="detailpeminjaman/:id/:idbuku"
                             element={<DetailPeminjaman />}
                         />
