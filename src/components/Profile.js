@@ -16,7 +16,7 @@ import {useAxiosPrivate} from '../utils/clientUtil';
 
     const fetchpeminjaman = async () => {
       try {
-        const response = await PrivateAxios.get("http://127.0.0.1:8080/book/get-peminjaman-user")
+        const response = await PrivateAxios.get("http://34.173.54.132/book/get-peminjaman-user")
         // const peminjaman = await response.json()
         if (response.status === 200) {
           setpeminjaman(response['data'])
@@ -28,7 +28,7 @@ import {useAxiosPrivate} from '../utils/clientUtil';
 
     }
     const fetchtargetreminder = async () => {
-        const response = await PrivateAxios.get("http://127.0.0.1:8080/book/get-targetreminder-user")
+        const response = await PrivateAxios.get("http://34.173.54.132/book/get-targetreminder-user")
         // const targetreminder = await response.json()
         if (response.status === 200) {
           settargetreminder(response['data'])
@@ -94,7 +94,7 @@ import {useAxiosPrivate} from '../utils/clientUtil';
                 <br></br>
                 {targetreminder == '' ? <h2>Belum ada riwayat target membaca</h2>:null}
                 <div className="d-flex flex-wrap">
-                    {targetreminder.map((targetmembaca) => (
+                    {targetreminder?.map((targetmembaca) => (
 
                         <Card style={{ width: '13rem', margin: '5px' }} key={targetmembaca.id}>
                             <Card.Img variant="top" src={targetmembaca['buku'][0].image_url_l} />

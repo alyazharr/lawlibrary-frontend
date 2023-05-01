@@ -7,7 +7,7 @@ const TodosContext = React.createContext({
 export default function Todos() {
   const [todos, setTodos] = useState([])
   const fetchTodos = async () => {
-    const response = await fetch("http://127.0.0.1:8000/book/todo")
+    const response = await fetch("http://34.173.54.132/book/todo")
     const todos = await response.json()
     setTodos(todos.data)
   }

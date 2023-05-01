@@ -13,7 +13,7 @@ function PinjamPage(props) {
   const navigate = useNavigate();
   
   const fetchbook = async () => {
-    const url = "http://127.0.0.1:8080/book/get-book-by-id?id=" + idbook.id
+    const url = "http://34.173.54.132/book/get-book-by-id?id=" + idbook.id
     const response = await fetch(url)
     const buku = await response.json()
     setbook(Object.values(buku)[0])
@@ -33,14 +33,14 @@ function PinjamPage(props) {
         setErrMsg('')
     try {
         if (reminder){
-                let url = 'http://127.0.0.1:8080/book/target-reminder?idbuku='+idbook.id+'&targetdate='+selesai
+                let url = 'http://34.173.54.132/book/target-reminder?idbuku='+idbook.id+'&targetdate='+selesai
                 let res = await PrivateAxios.post(url)
                 if (res.status === 200) {
                     console.log('Reminder Success')
                 } else {
                 }
         }
-            let url = 'http://127.0.0.1:8080/book/konfirmasi-pinjam?idbuku='+idbook.id+'&returndate='+selesai
+            let url = 'http://34.173.54.132/book/konfirmasi-pinjam?idbuku='+idbook.id+'&returndate='+selesai
             const res = await PrivateAxios.post(url)
             if (res.status === 200) {
                 // update stok

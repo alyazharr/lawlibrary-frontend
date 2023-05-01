@@ -12,7 +12,7 @@ const ProfileDetailPeminjaman = () => {
   const [mulai, setmulai] = useState([])
   
   const fetchdata = async () => {
-    const url = "http://127.0.0.1:8080/book/get-peminjaman?id=" + params.id
+    const url = "http://34.173.54.132/book/get-peminjaman?id=" + params.id
     const response = await fetch(url)
     const datas = await response.json()
     setdata(Object.values(datas)[0])
@@ -20,7 +20,7 @@ const ProfileDetailPeminjaman = () => {
     }
 
   const getBook = async () => {
-    const url = "http://127.0.0.1:8080/book/get-book-by-id?id=" + params.idbuku
+    const url = "http://34.173.54.132/book/get-book-by-id?id=" + params.idbuku
     const response = await fetch(url)
     const books = await response.json()
     setbook(Object.values(books)[0])
@@ -30,7 +30,7 @@ const ProfileDetailPeminjaman = () => {
     e.preventDefault();
     console.log("masuk sini")
     try {
-      const url = 'http://127.0.0.1:8080/book/konfirmasi-pengembalian?idpeminjaman='+params.id
+      const url = 'http://34.173.54.132/book/konfirmasi-pengembalian?idpeminjaman='+params.id
       let resp = await PrivateAxios.put(url)
       if (resp.status === 200) {
         console.log(resp['data'])
