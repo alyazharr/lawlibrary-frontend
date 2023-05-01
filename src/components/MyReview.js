@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 import { API_REVIEW_USER, API_REVIEW_UPDATE, API_REVIEW_DELETE } from '../utils/reviewConstant'
 import { Row, Col, Container, Button, Form, Card } from 'react-bootstrap'
-import { useAxiosPrivate } from '../utils/clientUtil';
+import { useAxiosPrivate } from '../utils/bookUtil';
 
 function MyReview(props) {
     const [myReviews, setMyReviews] = useState([])

@@ -10,14 +10,14 @@ const ProfileDetailTargetReminder = () => {
   const [mulai, setmulai] = useState([])
   
   const fetchdata = async () => {
-    const url = "http://34.173.54.132/book/get-targetreminder?id=" + params.id
+    const url = "http://34.72.52.78/book/get-targetreminder?id=" + params.id
     const response = await fetch(url)
     const datas = await response.json()
     setdata(Object.values(datas)[0])
     setmulai(Object.values(datas)[0].start_date.slice(0,10))
     }
   const getBook = async () => {
-    const url = "http://34.173.54.132/book/get-book-by-id?id=" + params.idbuku
+    const url = "http://34.72.52.78/book/get-book-by-id?id=" + params.idbuku
     const response = await fetch(url)
     const books = await response.json()
     setbook(Object.values(books)[0])

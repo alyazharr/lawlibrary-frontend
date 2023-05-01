@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { API_REVIEW_BOOK, API_REVIEW_CREATE, API_REVIEW_RATING } from '../utils/reviewConstant'
 import axios from 'axios'
 import { Row, Col, Container, Button, Form, Card } from 'react-bootstrap'
-import { useAxiosPrivate } from '../utils/clientUtil';
+import { useAxiosPrivate } from '../utils/bookUtil';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons"
 
@@ -22,7 +22,7 @@ function ReviewDetail(props) {
     const PrivateAxios = useAxiosPrivate();
 
     const fetchbook = async () => {
-        const url = "http://34.173.54.132/book/get-book-by-id?id=" + idbook.id
+        const url = "http://34.72.52.78/book/get-book-by-id?id=" + idbook.id
         const response = await fetch(url)
         const buku = await response.json()
         setBook(Object.values(buku)[0])

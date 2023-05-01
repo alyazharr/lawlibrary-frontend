@@ -2,7 +2,7 @@ import '../Styles/LoginForm.css'
 import { Link, useParams } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 import classes from '../context/TargetReminder.module.css'
-import {useAxiosPrivate} from '../utils/clientUtil';
+import {useAxiosPrivate} from '../utils/bookUtil';
 
 const ProfileDetailPeminjaman = () => {
   const PrivateAxios = useAxiosPrivate()
@@ -12,7 +12,7 @@ const ProfileDetailPeminjaman = () => {
   const [mulai, setmulai] = useState([])
   
   const fetchdata = async () => {
-    const url = "http://34.173.54.132/book/get-peminjaman?id=" + params.id
+    const url = "http://34.72.52.78/book/get-peminjaman?id=" + params.id
     const response = await fetch(url)
     const datas = await response.json()
     setdata(Object.values(datas)[0])
@@ -20,7 +20,7 @@ const ProfileDetailPeminjaman = () => {
     }
 
   const getBook = async () => {
-    const url = "http://34.173.54.132/book/get-book-by-id?id=" + params.idbuku
+    const url = "http://34.72.52.78/book/get-book-by-id?id=" + params.idbuku
     const response = await fetch(url)
     const books = await response.json()
     setbook(Object.values(books)[0])
@@ -30,7 +30,7 @@ const ProfileDetailPeminjaman = () => {
     e.preventDefault();
     console.log("masuk sini")
     try {
-      const url = 'http://34.173.54.132/book/konfirmasi-pengembalian?idpeminjaman='+params.id
+      const url = 'http://34.72.52.78/book/konfirmasi-pengembalian?idpeminjaman='+params.id
       let resp = await PrivateAxios.put(url)
       if (resp.status === 200) {
         console.log(resp['data'])

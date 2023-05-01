@@ -1,13 +1,15 @@
 import axios from "axios";
+import useRefreshToken from "./useRefreshToken";
 import {useEffect } from "react";
 import { useAuth } from "../context/GlobalStates";
 
 const client = axios.create({
-    baseURL: "http://34.173.54.132" 
+    baseURL: "http://34.72.52.78" 
   });
 
 const useAxiosPrivate = () => {
     const refresh = useRefreshToken();
+    const {authState} = useAuth()
 
     useEffect(() => {
 

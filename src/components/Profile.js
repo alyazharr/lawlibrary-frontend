@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import classes from '../context/Card.module.css'
 import React, { useEffect, useState } from "react"
 import Pagination from './Pagination';
-import {useAxiosPrivate} from '../utils/clientUtil';
+import {useAxiosPrivate} from '../utils/bookUtil';
     
   const Profile = () => {
     const PrivateAxios = useAxiosPrivate()
@@ -16,7 +16,7 @@ import {useAxiosPrivate} from '../utils/clientUtil';
 
     const fetchpeminjaman = async () => {
       try {
-        const response = await PrivateAxios.get("http://34.173.54.132/book/get-peminjaman-user")
+        const response = await PrivateAxios.get("http://34.72.52.78/book/get-peminjaman-user")
         // const peminjaman = await response.json()
         if (response.status === 200) {
           setpeminjaman(response['data'])
@@ -28,7 +28,7 @@ import {useAxiosPrivate} from '../utils/clientUtil';
 
     }
     const fetchtargetreminder = async () => {
-        const response = await PrivateAxios.get("http://34.173.54.132/book/get-targetreminder-user")
+        const response = await PrivateAxios.get("http://34.72.52.78/book/get-targetreminder-user")
         // const targetreminder = await response.json()
         if (response.status === 200) {
           settargetreminder(response['data'])

@@ -2,7 +2,7 @@ import '../Styles/LoginForm.css'
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import React, { useState, useEffect,useContext } from 'react';
 import classes from '../context/TargetReminder.module.css'
-import {useAxiosPrivate} from '../utils/clientUtil';
+import {useAxiosPrivate} from '../utils/bookUtil';
 
 function PinjamPage(props) {
   const PrivateAxios = useAxiosPrivate()
@@ -13,7 +13,7 @@ function PinjamPage(props) {
   const navigate = useNavigate();
   
   const fetchbook = async () => {
-    const url = "http://34.173.54.132/book/get-book-by-id?id=" + idbook.id
+    const url = "http://34.72.52.78//book/get-book-by-id?id=" + idbook.id
     const response = await fetch(url)
     const buku = await response.json()
     setbook(Object.values(buku)[0])
@@ -33,14 +33,14 @@ function PinjamPage(props) {
         setErrMsg('')
     try {
         if (reminder){
-                let url = 'http://34.173.54.132/book/target-reminder?idbuku='+idbook.id+'&targetdate='+selesai
+                let url = 'http://34.72.52.78/book/target-reminder?idbuku='+idbook.id+'&targetdate='+selesai
                 let res = await PrivateAxios.post(url)
                 if (res.status === 200) {
                     console.log('Reminder Success')
                 } else {
                 }
         }
-            let url = 'http://34.173.54.132/book/konfirmasi-pinjam?idbuku='+idbook.id+'&returndate='+selesai
+            let url = 'http://34.72.52.78/book/konfirmasi-pinjam?idbuku='+idbook.id+'&returndate='+selesai
             const res = await PrivateAxios.post(url)
             if (res.status === 200) {
                 // update stok
