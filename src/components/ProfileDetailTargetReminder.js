@@ -14,7 +14,7 @@ const ProfileDetailTargetReminder = () => {
     const response = await fetch(url)
     const datas = await response.json()
     setdata(Object.values(datas)[0])
-    setmulai(Object.values(datas)[0].created_at.slice(0,10))
+    setmulai(Object.values(datas)[0].start_date.slice(0,10))
     }
   const getBook = async () => {
     const url = "http://127.0.0.1:8080/book/get-book-by-id?id=" + params.idbuku
@@ -38,8 +38,8 @@ const ProfileDetailTargetReminder = () => {
       <img className={classes.img} src={book.image_url_l} style={{ margin:'5px', padding:'10px'}}></img>
         <h3>Author: {book.author}</h3>
         <h3>Mulai membaca: {mulai}</h3>
-        <h3>Target selesai: {data.selesai}</h3>
-        {getSelisih(data.selesai)<0 ?<h3>Status: sudah melewati target selesai</h3>:<h3>Sisa waktu membaca: {getSelisih(data.selesai)} hari</h3>}
+        <h3>Target selesai: {data.target_date}</h3>
+        {getSelisih(data.target_date)<0 ?<h3>Status: sudah melewati target selesai</h3>:<h3>Sisa waktu membaca: {getSelisih(data.target_date)} hari</h3>}
 
         <div className={classes.item}>
         <Link to="/profile"><button className="btn btn-secondary">
