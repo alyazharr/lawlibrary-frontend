@@ -151,7 +151,7 @@ function ReviewDetail(props) {
                             </div>
                             <hr></hr>
                             <h4><strong>Reviews:</strong></h4>
-                            {reviews.sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
+                            {reviews && Array.isArray(reviews) && reviews.sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
                                 .map((review_obj) => (
                                     <div key={review_obj.id}>
                                         <Card className='mb-3 shadow' >
