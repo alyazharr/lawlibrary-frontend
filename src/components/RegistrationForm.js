@@ -129,8 +129,8 @@ function RegistrationForm() {
             <div className="mb-3">
               <label htmlFor='email'>
                 Email
-                <FontAwesomeIcon icon={faCheck} className={validName ? "valid" : "hide"} />
-                <FontAwesomeIcon icon={faTimes} className={validName || !email ? "hide" : "invalid"} />
+                <FontAwesomeIcon icon={faCheck} className={validEmail ? "valid" : "hide"} />
+                <FontAwesomeIcon icon={faTimes} className={validEmail || !email ? "hide" : "invalid"} />
               </label>
               <input
                 type="email"
@@ -169,8 +169,8 @@ function RegistrationForm() {
               <p id="pwdnote" className={pwdFocus && !validPwd ? "warn" : "safe"}>
                 <FontAwesomeIcon icon={faInfoCircle} />
                 6 to 16 characters.<br />
-                Must include uppercase and lowercase letters, a number and a special character.<br />
-                Allowed special characters: <span aria-label="exclamation mark">!</span> <span aria-label="at symbol">@</span> <span aria-label="hashtag">#</span> <span aria-label="dollar sign">$</span> <span aria-label="percent">%</span>
+                Must include uppercase and lowercase letters and a number.<br />
+                Can include special characters: <span aria-label="substract mark">-</span><span aria-label="add mark">+</span><span aria-label="exclamation mark">!</span> <span aria-label="at symbol">@</span> <span aria-label="hashtag">#</span> <span aria-label="dollar sign">$</span> <span aria-label="percent">%</span>
               </p>
             </div>
             <div className="mb-3">
