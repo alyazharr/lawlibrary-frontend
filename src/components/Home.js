@@ -85,7 +85,7 @@ const Home = () => {
                                 <Row>
                                     {displayedBooks.map((book) => (
                                         <Card key={book.id} style={{ width: '13rem', margin: '5px' }}>
-                                            <Card.Img variant="top" src={book.image_url_m} />
+                                            <Card.Img variant="top" src={book.image_url_l} />
                                             <Card.Body>
                                                 <Card.Title>{book.title}</Card.Title>
                                                 <Card.Text>
