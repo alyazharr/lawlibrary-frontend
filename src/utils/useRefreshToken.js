@@ -7,11 +7,11 @@ const useRefreshToken = () => {
         const response = await client.get('/refresh', {
             withCredentials: true
         });
-        console.log(response)
+        // console.log(response)
         setAuthState(prev => {
-            console.log(JSON.stringify(prev));
-            console.log(response.data.accessToken);
-            console.log(response)
+            // console.log(JSON.stringify(prev));
+            // console.log(response.data.accessToken);
+            // console.log(response)
             return { ...prev, username: response.data.username,accessToken: response.data.accessToken }
         });
         return response.data.accessToken;

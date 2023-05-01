@@ -9,6 +9,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
 import RequireAuth from './utils/RequireAuth';
 import Profile from './components/Profile';
+import ProfileDetailPeminjaman from './components/ProfileDetailPeminjaman';
+import ProfileDetailTargetReminder from './components/ProfileDetailTargetReminder';
 import TargetReminderForm from './components/TargetReminderForm';
 import DetailTargetReminder from './components/DetailTargetReminder';
 import DetailPeminjaman from './components/DetailPeminjaman';
@@ -92,10 +94,18 @@ function App() {
                             path="detailpeminjaman/:id/:idbuku"
                             element={<DetailPeminjaman />}
                         />
-                        <Route
-                            path="pinjam/:id"
-                            element={<PinjamPage />}
+                    <Route
+                            path="profiledetailpeminjaman/:id/:idbuku"
+                            element={<ProfileDetailPeminjaman />}
                         />
+                    <Route
+                            path="profiledetailtargetreminder/:id/:idbuku"
+                            element={<ProfileDetailTargetReminder />}
+                        />
+                    <Route
+                        path="pinjam/:id"
+                        element={<PinjamPage />}
+                    />
                     </Route>
 
                 </Route>

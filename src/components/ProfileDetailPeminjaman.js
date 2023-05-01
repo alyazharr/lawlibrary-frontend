@@ -2,8 +2,10 @@ import '../Styles/LoginForm.css'
 import { Link, useParams } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 import classes from '../context/TargetReminder.module.css'
+import {useAxiosPrivate} from '../utils/clientUtil';
 
-const DetailPeminjaman = () => {
+const ProfileDetailPeminjaman = () => {
+  const PrivateAxios = useAxiosPrivate()
   const params = useParams();
   const [data, setdata] = useState([])
   const [book, setbook] = useState([])
@@ -16,11 +18,28 @@ const DetailPeminjaman = () => {
     setdata(Object.values(datas)[0])
     setmulai(Object.values(datas)[0].created_at.slice(0,10))
     }
+
   const getBook = async () => {
     const url = "http://127.0.0.1:8080/book/get-book-by-id?id=" + params.idbuku
     const response = await fetch(url)
     const books = await response.json()
     setbook(Object.values(books)[0])
+  }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log("masuk sini")
+    try {
+      const url = 'http://127.0.0.1:8080/book/konfirmasi-pengembalian?idpeminjaman='+params.id
+      let resp = await PrivateAxios.put(url)
+      if (resp.status === 200) {
+        console.log(resp['data'])
+        window.location.reload();
+      } else {
+      }
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   useEffect(() => {
@@ -31,19 +50,21 @@ const DetailPeminjaman = () => {
   return (
       <div className={classes.content}>
       <div>
-        <h1>Berhasil Melakukan Konfirmasi Peminjaman!</h1>
+        <h1>Detail Peminjaman</h1>
         <hr></hr>
         <h1>{book.title}</h1>
       <img className={classes.img} src={book.image_url_l} style={{ margin:'5px', padding:'10px'}}></img>
         <h3>Author: {book.author}</h3>
         <h3>Tanggal peminjaman: {mulai}</h3>
         <h3>Tanggal pengembalian: {data.selesai}</h3>
-        <h3>Sisa waktu peminjaman: {getSelisih(data.selesai)} hari</h3>
+        {data.status == 'dikembalikan' ? null:<h3>Sisa waktu peminjaman: {getSelisih(data.selesai)} hari</h3>}
+        <h3>Status: {cekStatus(data.status, data.selesai)}</h3>
         <div className={classes.item}>
-        <Link to="/home"><button className="btn btn-secondary">
+        <Link to="/profile"><button className="btn btn-secondary">
               Back 
             </button>
             </Link>
+        {data.status == 'dikembalikan' ? null:<button className="btn btn-success" onClick={handleSubmit}>Konfirmasi Pengembalian</button>}
         </div>
     </div>
     </div>
@@ -59,6 +80,21 @@ function getSelisih(selesai){
     return diffDays
 }
 
+function cekStatus(status, selesai){
+    let selisih = getSelisih(selesai)
+    if (status=='dipinjam') {
+      if (selisih<0) {
+          return 'Telat dikembalikan'
+      } if (selisih == 0) {
+          return 'Sedang dipinjam. Kembalikan hari ini'
+      } else {
+          return 'Sedang dipinjam'
+      }
+  } else {
+    return 'Sudah dikembalikan'
+  }
+}
+
 function getCurrentDate(separator='-'){
   let newDate = new Date()
   let date = newDate.getDate();
@@ -68,4 +104,4 @@ function getCurrentDate(separator='-'){
   return `${year}${separator}${month<10?`0${month}`:`${month}`}${separator}${date<10?`0${date}`:`${date}`}`
 }
 
-export default DetailPeminjaman
+export default ProfileDetailPeminjaman

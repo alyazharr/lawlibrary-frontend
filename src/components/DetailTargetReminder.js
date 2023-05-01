@@ -38,7 +38,7 @@ const DetailTargetReminder = () => {
         <h3>Author: {book.author}</h3>
         <h3>Mulai membaca: {mulai}</h3>
         <h3>Target selesai: {data.selesai}</h3>
-        <h3>Sisa waktu membaca: {getSelisih(mulai, data.selesai)} hari</h3>
+        <h3>Sisa waktu membaca: {getSelisih(data.selesai)} hari</h3>
         <div className={classes.item}>
         <Link to="/home"><button className="btn btn-secondary">
               Back 
@@ -50,13 +50,22 @@ const DetailTargetReminder = () => {
   )
 }
 
-function getSelisih(mulai, selesai){
-    let mulaia = new Date(mulai)
-    let selesaia = new Date(selesai)
-    const diffTime = Math.abs(selesaia - mulaia);
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
-    
-    return diffDays
+function getSelisih(selesai){
+  let hariini = new Date(getCurrentDate())
+  let selesaia = new Date(selesai)
+  const diffTime = (selesaia - hariini);
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
+  
+  return diffDays
+}
+
+function getCurrentDate(separator='-'){
+let newDate = new Date()
+let date = newDate.getDate();
+let month = newDate.getMonth() + 1;
+let year = newDate.getFullYear();
+
+return `${year}${separator}${month<10?`0${month}`:`${month}`}${separator}${date<10?`0${date}`:`${date}`}`
 }
 
 export default DetailTargetReminder
