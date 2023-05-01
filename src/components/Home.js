@@ -40,7 +40,7 @@ const Home = () => {
                 <div className="d-flex flex-wrap">
                     {displayedBooks.map((book) => (
                         <Card style={{ width: '13rem', margin: '5px' }} key={book.id}>
-                            <Card.Img variant="top" src={book.image_url_m} />
+                            <Card.Img variant="top" src={book.image_url_l} />
                             <Card.Body>
                                 <Card.Title>{book.title}</Card.Title>
                                 <Card.Text>

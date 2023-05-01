@@ -11,7 +11,7 @@ const PersistLogin = () => {
         let isMounted = true;
 
         const verifyRefreshToken = async () => {
-            console.log("hello")
+            // console.log("hello")
             try {
                 await refresh();
             }
@@ -29,8 +29,8 @@ const PersistLogin = () => {
     }, [])
 
     useEffect(() => {
-        console.log(`isLoading: ${isLoading}`)
-        console.log(`aT: ${JSON.stringify(authState?.accessToken)}`)
+        // console.log(`isLoading: ${isLoading}`)
+        // console.log(`aT: ${JSON.stringify(authState?.accessToken)}`)
     }, [isLoading])
 
     return (
