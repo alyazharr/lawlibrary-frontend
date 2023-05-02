@@ -71,13 +71,14 @@ function ReviewDetail(props) {
             const response = await PrivateAxios.post(API_REVIEW_CREATE + `/${idbook.id}`, reviewData,
                 { method: "POST", withCredentials: true });
             if (response.status === 200) {
-                console.log("SUKSES ANJJJIRRR")
+                console.log("SUKSES")
                 setReviewData({
                     rating: "",
                     review_text: ""
                 });
                 const reviewResponse = await axios.get(API_REVIEW_BOOK + `/${idbook.id}`);
                 setReviews(reviewResponse.data);
+                fetchAvgRating();
             }
         } catch (error) {
             console.error('POST Failed:', error);
