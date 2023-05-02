@@ -179,7 +179,7 @@ function MyReview(props) {
                                 <Link to={{
                                     pathname: `/reviews/book/${myrev.book_id}`,
                                 }}>
-                                    <button className="btn btn-primary" onClick={() => handleDelete(myrev)}
+                                    <button className="btn btn-primary"
                                         style={{ marginTop: '10px' }}>
                                         See Book Reviews
                                     </button>
