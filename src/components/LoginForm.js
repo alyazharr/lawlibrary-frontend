@@ -2,6 +2,7 @@ import '../Styles/LoginForm.css'
 import {useNavigate, useLocation } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/GlobalStates';
+import { Link} from "react-router-dom";
 import { client } from '../utils/clientUtil';
 function LoginForm() {
 
@@ -96,7 +97,7 @@ function LoginForm() {
           </button>
         </div>
         <p className="forgot-password text-right">
-              Haven't Registered? <a href="/sign-in">sign Up?</a>
+              Haven't Registered?<Link to={`/auth/register`}>Sign up</Link>
             </p>
       </form>
 

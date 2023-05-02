@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { client } from '../utils/clientUtil';
+import { Link} from "react-router-dom";
 import { faCheck, faTimes, faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import "../Styles/RegistrationForm.css";
@@ -200,7 +201,7 @@ function RegistrationForm() {
               </button>
             </div>
             <p className="forgot-password text-right">
-              Already registered <a href="/sign-in">sign in?</a>
+              Already registered <Link to={`/auth/login`}>Sign in</Link>
             </p>
           </form>
         </section>
