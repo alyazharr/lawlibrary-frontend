@@ -43,6 +43,7 @@ function RegistrationForm() {
 
     if (!validUsername | !validPassword | !validEmail) {
       setErrMsg('Invalid Username or Email or Password.')
+      return
     }
 
 
