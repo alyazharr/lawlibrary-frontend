@@ -56,12 +56,6 @@ function Header() {
                 onClick={showNavbar}>
                 <FaBars />
             </button>
-            <div className="search-container">
-                <form action="/#">
-                    <input type="text" placeholder="Search.." name="search"/>
-                    <button type="submit">Submit</button>
-                </form>
-            </div>
         </header>
         
 

@@ -9,7 +9,7 @@ function LoginForm() {
   const {authState, setAuthState} = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
-  const from = location.state?.from?.pathname || "/";
+  const from = location.state?.from?.pathname || "/home";
   const [user, setUser] = useState('');
 
   const [pwd, setPwd] = useState('');
