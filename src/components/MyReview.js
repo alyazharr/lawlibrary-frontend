@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 import { API_REVIEW_USER, API_REVIEW_UPDATE, API_REVIEW_DELETE } from '../utils/reviewConstant'
 import { Row, Col, Container, Button, Form, Card } from 'react-bootstrap'
+import Pagination from './Pagination';
 import { useAxiosPrivate } from '../utils/bookUtil';
 
 function MyReview(props) {
@@ -13,6 +14,15 @@ function MyReview(props) {
         rating: 0,
         review_text: '',
     })
+
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 3;
+
+    const startIndex = (currentPage - 1) * itemsPerPage
+    const endIndex = startIndex + itemsPerPage
+    const sortedReviews = [...myReviews].sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+    const displayedReviews = sortedReviews.slice(startIndex, endIndex);
+
     const PrivateAxios = useAxiosPrivate();
 
     const fetchMyReviews = async () => {
@@ -21,12 +31,16 @@ function MyReview(props) {
             if (response.status === 200) {
                 console.log(response.data)
                 setMyReviews(response.data)
-             };
-            }
+            };
+        }
         catch (error) {
             console.error('GET Failed:', error);
         }
     }
+
+    const handlePageChange = (pageNumber) => {
+        setCurrentPage(pageNumber)
+    };
 
     const handleEdit = (review) => {
         setSelectedReview(review.id);
@@ -143,52 +157,79 @@ function MyReview(props) {
                     </Card.Body>
                 </Card>
             )}
-            {myReviews.sort((a, b) => new Date(b.created_at) - new Date(a.created_at)).map((myrev) => (
-                <Card key={myrev.id} className='mb-3 shadow' style={{ width: '100%', margin: '5px' }}>
-                    <Container>
-                        <Row>
-                            <Col xs={2} style={{ margin: '2%' }}>
-                                <BookDetails book_id={myrev.book_id} />
-                            </Col>
-                            <Col xs={5} style={{ margin: '2%' }}>
-                                <div style={{fontSize:'17px'}}>
-                                    <p><strong>Rating ⭐ </strong> {myrev.rating}/5</p>
-                                    <p><strong>My Review : </strong> <p>{myrev.review_text}</p></p>
-                                </div>
+            <Row>
+                {displayedReviews && displayedReviews.map((myrev) => (
+                    <Card key={myrev.id} className='mb-3 shadow' style={{ width: '100%', margin: '5px' }}>
+                        <Container>
+                            <Row>
+                                <Col xs={2} style={{ margin: '2%' }}>
+                                    <BookDetails book_id={myrev.book_id} />
+                                </Col>
+                                <Col xs={5} style={{ margin: '2%' }}>
+                                    <Row>
+                                        <div style={{ fontSize: '17px' }}>
+                                            <p><strong>Rating ⭐ </strong> {myrev.rating}/5</p>
+                                            <p><strong>My Review : </strong> <p>{myrev.review_text}</p></p>
+                                        </div>
+                                    </Row>
 
-                            </Col >
-                            <Col xs={3} className='justify-content-right' style={{ marginLeft: '3%', marginTop: '2%', textAlign: 'right' }}>
-                                {/* to change */}
-                                <Link to={{
-                                    pathname: `/reviews/update/${myrev.id}`,
-                                }}
-                                ><button className="btn btn-warning" onClick={() => handleEdit(myrev)}
-                                    style={{ marginRight: '3%' }}>
-                                        Change
-                                    </button>
-                                </Link>
-                                {/* to delete */}
-                                <Link to={{
-                                    pathname: `/reviews/delete/${myrev.id}`,
-                                }}>
-                                    <button className="btn btn-danger" onClick={() => handleDelete(myrev)} >
-                                        Delete
-                                    </button>
-                                </Link>
-                                <br></br>
-                                <Link to={{
-                                    pathname: `/reviews/book/${myrev.book_id}`,
-                                }}>
-                                    <button className="btn btn-primary"
+                                    <Row>
+                                        <Card.Subtitle style={{ fontSize: '14px' }} className="mb-2 text-muted"> Reviewed At :
+                                            {new Date(myrev.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}
+                                            <span style={{ paddingLeft: '7px' }}>{new Date(myrev.created_at).toLocaleTimeString('id-ID').replace(/\./g, ':')}</span>
+                                        </Card.Subtitle>
+                                    </Row>
+                                </Col >
+                                <Col xs={3} className='justify-content-right' style={{ marginLeft: '2%', marginTop: '2%', textAlign: 'right' }}>
+                                    {/* see book review */}
+                                    <Link to={{
+                                        pathname: `/reviews/book/${myrev.book_id}`,
+                                    }}>
+                                        <button className="btn btn-primary"
+                                            style={{ marginTop: '10px' }}>
+                                            See Book Reviews
+                                        </button>
+                                    </Link>
+                                    <br></br>
+
+                                    
+                                    {/* to change */}
+                                    <Link to={{
+                                        pathname: `/reviews/update/${myrev.id}`,
+                                    }}
+                                    ><button className="btn btn-warning" onClick={() => handleEdit(myrev)}
                                         style={{ marginTop: '10px' }}>
-                                        See Book Reviews
-                                    </button>
-                                </Link>
-                            </Col>
-                        </Row>
-                    </Container>
-                </Card>
-            ))}
+                                            Change
+                                        </button>
+                                    </Link>
+                
+                                    {/* to delete */}
+                                    <Link to={{
+                                        pathname: `/reviews/delete/${myrev.id}`,
+                                    }}>
+                                        <button className="btn btn-danger" style={{ marginTop: '10px', marginLeft:'2%' }} onClick={() => handleDelete(myrev)} >
+                                            Delete
+                                        </button>
+                                    </Link>
+                                    <br></br>
+                                </Col>
+                            </Row>
+                        </Container>
+                    </Card>
+                ))}
+            </Row>
+            <Row>
+                <div style={{ display: "flex", justifyContent: "center" }}>
+                    <div className='mt-4'>
+                        <Pagination
+                            currentPage={currentPage}
+                            onPageChange={handlePageChange}
+                            totalCount={myReviews.length}
+                            pageSize={itemsPerPage}
+                            siblingCount={1}
+                        /></div>
+                </div>
+            </Row>
         </div>
     )
 }
@@ -213,9 +254,9 @@ function BookDetails(props) {
 
     return (
         <div className='justify-content-center'>
-            <Card.Img variant="top" className='d-flex align-item-center' src={book.image_url_s} style={{ height: '120px', width: 'auto', margin: '0 auto'}} />
-            <Card.Subtitle style={{marginTop:'3%', textAlign:'center'}}>{book.title}</Card.Subtitle>
-            <Card.Text className='text-muted'style={{marginTop:'2%', textAlign:'center'}}>{book.author} ({book.publication_year})</Card.Text>
+            <Card.Img variant="top" className='d-flex align-item-center' src={book.image_url_s} style={{ height: '120px', width: 'auto', margin: '0 auto' }} />
+            <Card.Subtitle style={{ marginTop: '3%', textAlign: 'center' }}>{book.title}</Card.Subtitle>
+            <Card.Text className='text-muted' style={{ marginTop: '2%', textAlign: 'center' }}>{book.author} ({book.publication_year})</Card.Text>
         </div>
     );
 }
