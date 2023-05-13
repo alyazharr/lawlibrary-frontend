@@ -7,6 +7,8 @@ import { Row, Col, Container, Button, Form, Card } from 'react-bootstrap'
 import { useAxiosPrivate } from '../utils/bookUtil';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons"
+import Pagination from './Pagination';
+
 
 function ReviewDetail(props) {
     const idbook = useParams();
@@ -18,6 +20,14 @@ function ReviewDetail(props) {
     const [reviews, setReviews] = useState([])
     const [avg_rating, setAvgRating] = useState([])
     const [errMsg, setErrMsg] = useState('')
+
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 5;
+
+    const startIndex = (currentPage - 1) * itemsPerPage
+    const endIndex = startIndex + itemsPerPage 
+    const sortedReviews = [...reviews].sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+    const displayedReviews = sortedReviews.slice(startIndex, endIndex);
 
     const PrivateAxios = useAxiosPrivate();
 
@@ -36,14 +46,18 @@ function ReviewDetail(props) {
     }
 
     const fetcReviews = async () => {
-        axios.get(API_REVIEW_BOOK + `/${idbook.id}`)
-            .then(response => {
-                setReviews(response.data);
-                console.log(response.data);
-            })
-            .catch(error => {
-                console.log("API Review not catching data", error)
-            });
+        try {
+            const response = await axios.get(API_REVIEW_BOOK + `/${idbook.id}`);
+            setReviews(response.data);
+            console.log(response.data);
+            if (response.data.status_code === 404) {
+                setErrMsg('Book with the correlated ID is not found');
+            }
+        } catch (error) {
+            if (error.response && error.response.status === 404) {
+                setErrMsg('Book with the correlated ID is not found');
+            }
+        }
     }
 
     useEffect(() => {
@@ -52,6 +66,10 @@ function ReviewDetail(props) {
         fetcReviews()
         fetchAvgRating()
     }, [])
+
+    const handlePageChange = (pageNumber) => {
+        setCurrentPage(pageNumber)
+    };
 
     const handleInputChange = (event) => {
         setReviewData({
@@ -81,14 +99,20 @@ function ReviewDetail(props) {
                 fetchAvgRating();
             }
         } catch (error) {
-            console.error('POST Failed:', error);
+            if (error.response.status === 409) {
+                setErrMsg('You Already Reviewed This Book. Please Check My Reviews Page.');
+            } else if (error.response.status === 400) {
+                setErrMsg('Invalid Input. Unable to Add Review.');
+            }
+            else {
+                console.error('POST Failed:', error);
+            }
         }
     }
 
     return (
         <div>
             <div style={{ paddingLeft: '100px', marginTop: '2%' }}>
-                <p className={errMsg ? "errmsg" : "hide"} aria-live="assertive">{errMsg}</p>
                 <Link to={{
                     pathname: `/reviews`,
                 }}
@@ -106,16 +130,17 @@ function ReviewDetail(props) {
                             <h4><strong>{book.title}</strong></h4>
                             <br></br>
                             <div key={book.id}>
-                                <img  style={{ height: '400px', margin: '1%' }} src={book.image_url_l}></img>
+                                <img style={{ height: '400px', margin: '1%' }} src={book.image_url_l}></img>
                                 <h6 style={{ paddingTop: '5%', fontSize: '18px' }}><strong>Author:</strong> {book.author}</h6>
                                 <h6 style={{ fontSize: '18px' }}><strong>ISBN:</strong> {book.isbn}</h6>
                                 <h6 style={{ fontSize: '18px' }}><strong>Publisher (Year):</strong> {book.publisher} ({book.publication_year})</h6>
                                 <h6 style={{ fontSize: '18px' }}><strong>Rating ⭐:</strong> {avg_rating.avg_rating}/5</h6>
-                            </div>        
+                            </div>
                         </Col>
 
                         {/* review */}
                         <Col xs={6}>
+                            <p className={errMsg ? "errmsg" : "hide"} aria-live="assertive">{errMsg}</p>
                             <div>
                                 <Card className='shadow'>
                                     <Card.Body>
@@ -151,25 +176,38 @@ function ReviewDetail(props) {
                                 </Card>
                             </div>
                             <hr></hr>
-                            <h4><strong>Reviews:</strong></h4>
-                            {reviews && Array.isArray(reviews) && reviews.sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
-                                .map((review_obj) => (
-                                    <div key={review_obj.id}>
-                                        <Card className='mb-3 shadow' >
-                                            <Card.Body>
-                                                <Card.Title style={{ fontSize: '17px', color: 'blue' }}>@{review_obj.user_id}</Card.Title>
-                                                <Card.Subtitle style={{ fontSize: '14px' }} className="mb-2 text-muted">
-                                                    {new Date(review_obj.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}
-                                                    <span style={{paddingLeft:'7px'}}>{new Date(review_obj.created_at).toLocaleTimeString('id-ID').replace(/\./g, ':')}</span>
-                                                </Card.Subtitle>
-                                                <Card.Text>
-                                                    ⭐ {review_obj.rating}/5<br></br>
-                                                    {review_obj.review_text}
-                                                </Card.Text>
-                                            </Card.Body>
-                                        </Card>
-                                    </div>
-                                ))}
+                            <Row>
+                                <h4><strong>Reviews:</strong></h4>
+                                {displayedReviews && displayedReviews.map((review_obj) => (
+                                        <div key={review_obj.id}>
+                                            <Card className='mb-3 shadow' >
+                                                <Card.Body>
+                                                    <Card.Title style={{ fontSize: '17px', color: 'blue' }}>@{review_obj.user_id}</Card.Title>
+                                                    <Card.Subtitle style={{ fontSize: '14px' }} className="mb-2 text-muted">
+                                                        {new Date(review_obj.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}
+                                                        <span style={{ paddingLeft: '7px' }}>{new Date(review_obj.created_at).toLocaleTimeString('id-ID').replace(/\./g, ':')}</span>
+                                                    </Card.Subtitle>
+                                                    <Card.Text>
+                                                        ⭐ {review_obj.rating}/5<br></br>
+                                                        {review_obj.review_text}
+                                                    </Card.Text>
+                                                </Card.Body>
+                                            </Card>
+                                        </div>
+                                    ))}
+                            </Row>
+                            <Row>
+                                <div style={{ display: "flex", justifyContent: "center" }}>
+                                    <div className='mt-4'>
+                                        <Pagination
+                                            currentPage={currentPage}
+                                            onPageChange={handlePageChange}
+                                            totalCount={reviews.length}
+                                            pageSize={itemsPerPage}
+                                            siblingCount={1}
+                                        /></div>
+                                </div>
+                            </Row>
                         </Col>
                     </Row>
                 </Container>
