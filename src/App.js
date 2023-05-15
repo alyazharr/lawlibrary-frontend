@@ -21,7 +21,10 @@ import ReviewPage from './components/ReviewPage';
 import ReviewDetail from './components/ReviewDetail';
 import MyReview from './components/MyReview';
 import Stock from "./components/Stock";
-
+const ROLES = {
+    'User': 'user',
+    'Admin': 'admin'
+  }
 {/*naro routing disini ya gaes*/ }
 function App() {
     return (
@@ -57,7 +60,7 @@ function App() {
 
                     {/*protected routes*/}
 
-                    <Route element={<RequireAuth />}>
+                    <Route element={<RequireAuth allowedRoles={ROLES.User} />}>
                         <Route
                             path="profile"
                             element={<Profile />}

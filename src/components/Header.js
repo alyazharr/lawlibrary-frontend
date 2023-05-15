@@ -28,11 +28,18 @@ function Header() {
         <header>
             <h3><a href="/home">LawLibrary</a></h3>
             <nav ref={navRef}>
+                { authState?.roles === 'user' ? <div>
                 <Link to={`/profile`}>Profile</Link>
                 <Link to={`/my-reviews`}>My Review</Link> 
                 <Link to={`/reviews`}>Book Review</Link>
                 <a href="/#">Book Recommendation</a>
                 <Link to={`/books/search`}>Book Search</Link>
+                </div>: 
+                <div></div>}
+                 { authState?.roles === 'admin' ? <div>
+                <a href="/#">Admin Page</a>
+                </div>: 
+                <div></div>}
                 { !authState?.username ? <div>
                     <Link to={`/auth/login`}>Login</Link>
                     <Link to={`/auth/register`}>Register</Link>

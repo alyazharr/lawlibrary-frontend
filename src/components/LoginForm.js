@@ -2,14 +2,13 @@ import '../Styles/LoginForm.css'
 import {useNavigate, useLocation } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/GlobalStates';
-import { Link} from "react-router-dom";
 import { client } from '../utils/clientUtil';
 function LoginForm() {
 
   const {authState, setAuthState} = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
-  const from = location.state?.from?.pathname || "/home";
+  const from = location.state?.from?.pathname || "/";
   const [user, setUser] = useState('');
 
   const [pwd, setPwd] = useState('');
@@ -30,7 +29,7 @@ function LoginForm() {
       .then((response) => {
         if (response.status == '200') {
           console.log(response.data)
-          setAuthState({username: user, password: pwd,accessToken: response.data.accessToken })
+          setAuthState({username: user, password: pwd,accessToken: response.data.accessToken, roles: response.data.roles })
           localStorage.setItem('refreshToken',response.data.refreshToken)
           console.log(authState);
           setUser('');
@@ -97,7 +96,7 @@ function LoginForm() {
           </button>
         </div>
         <p className="forgot-password text-right">
-              Haven't Registered?<Link to={`/auth/register`}>Sign up</Link>
+              Haven't Registered? <a href="/sign-in">sign Up?</a>
             </p>
       </form>
 
