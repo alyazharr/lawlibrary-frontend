@@ -238,7 +238,7 @@ function BookDetails(props) {
     const [book, setBook] = useState([]);
 
     const fetchbook = async () => {
-        const url = `http://34.72.52.78/book/get-book-by-id?id=${props.book_id}`
+        const url = `http://34.133.211.90/book/get-book-by-id?id=${props.book_id}`
         const response = await fetch(url)
         const buku = await response.json()
         setBook(Object.values(buku)[0])

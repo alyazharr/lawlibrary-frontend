@@ -16,7 +16,7 @@ import {useAxiosPrivate} from '../utils/bookUtil';
 
     const fetchpeminjaman = async () => {
       try {
-        const response = await PrivateAxios.get("http://34.72.52.78/book/get-peminjaman-user")
+        const response = await PrivateAxios.get("http://34.133.211.90/book/get-peminjaman-user")
         // const peminjaman = await response.json()
         if (response.status === 200) {
           setpeminjaman(response['data'])
@@ -28,7 +28,7 @@ import {useAxiosPrivate} from '../utils/bookUtil';
 
     }
     const fetchtargetreminder = async () => {
-        const response = await PrivateAxios.get("http://34.72.52.78/book/get-targetreminder-user")
+        const response = await PrivateAxios.get("http://34.133.211.90/book/get-targetreminder-user")
         // const targetreminder = await response.json()
         if (response.status === 200) {
           settargetreminder(response['data'])

@@ -27,7 +27,7 @@ const Home = () => {
     
 
     const fetchBooks = async () => {
-        const response = await fetch("http://34.72.52.78/book/get-books")
+        const response = await fetch("http://34.133.211.90/book/get-books")
         const Books = await response.json()
         setBooks(Books)
     }

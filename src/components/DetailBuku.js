@@ -8,7 +8,7 @@ const DetailBuku = () => {
   const [book, setbook] = useState([])
   
   const fetchbook = async () => {
-    const url = "http://34.72.52.78/book/get-book-by-id?id=" + idbook.id
+    const url = "http://34.133.211.90/book/get-book-by-id?id=" + idbook.id
     const response = await fetch(url)
     const books = await response.json()
     setbook(books)
