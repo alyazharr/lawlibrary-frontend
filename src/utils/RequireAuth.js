@@ -7,6 +7,7 @@ const RequireAuth = ({allowedRoles}) => {
     const {authState} = useAuth()
     const location = useLocation();
     console.log(allowedRoles)
+    console.log(authState?.roles===allowedRoles)
     return (
         authState?.username
         ? authState?.roles===allowedRoles 
