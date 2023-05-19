@@ -43,7 +43,8 @@ function PinjamPage(props) {
             let url = 'http://34.133.211.90/book/konfirmasi-pinjam?idbuku='+idbook.id+'&returndate='+selesai
             const res = await PrivateAxios.post(url)
             if (res.status === 200) {
-                // update stok
+                let url = 'http://34.133.211.90/stock/update?id='+idbook.id+'&stok=0'
+                await PrivateAxios.put(url)
                 navigate('/detailpeminjaman/'+res['data'][1][0]['id']+'/'+idbook.id)
             } else {
             }
