@@ -2,7 +2,6 @@ import { Row, Col, Container, Button, Form, Card } from 'react-bootstrap'
 import { Link, useNavigate } from "react-router-dom";
 import classes from '../context/Card.module.css'
 import React, { useEffect, useState } from "react"
-import Todos from "./Todos";
 import { API_SEARCH } from '../utils/searchConstant'
 import Pagination from './Pagination';
 import axios from 'axios'
