@@ -3,12 +3,29 @@ import { Link, useParams } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 import classes from '../context/TargetReminder.module.css'
 import { useAuth } from "../context/GlobalStates";
+import {useAxiosPrivate} from "../utils/bookUtil";
 
 const DetailBuku = () => {
+  const PrivateAxios = useAxiosPrivate()
   const idbook = useParams();
   const [book, setbook] = useState([])
   const {authState} = useAuth()
-  
+  const [stockInput, setStockInput] = useState("");
+  const [showStockForm, setShowStockForm] = useState(false);
+
+  const handleUpdateStock = () => {
+    setShowStockForm(true);
+  };
+  const handleSubmitStock = async (event) => {
+    event.preventDefault();
+    let urlx = 'http://34.27.70.84/stock/update?id='+idbook.id+'&stok='+stockInput
+    const rex = await PrivateAxios.put(urlx)
+
+    if (rex.status === 200) {
+      window.location.reload();
+    }
+  };
+
   const fetchbook = async () => {
     const url = "http://34.27.70.84/book/get-book-by-id?id=" + idbook.id
     const response = await fetch(url)
@@ -33,12 +50,22 @@ const DetailBuku = () => {
         <h3>Stock: {bok.stok}</h3>
         <div className={classes.item}>
             { authState?.roles === 'admin' ? <div>
-            <Link to={{                            
-          pathname:`/targetreminderform/${bok.id}`,                            
-        }}><button className="btn btn-warning">
+            <button className="btn btn-warning" onClick={handleUpdateStock}>
               Update Stock 
             </button>
-            </Link>
+                  {showStockForm && authState?.roles === "admin" && (
+                      <form onSubmit={handleSubmitStock}>
+                        <input
+                            type="number"
+                            value={stockInput}
+                            onChange={(e) => setStockInput(e.target.value)}
+                            placeholder="Enter stock"
+                        />
+                        <button type="submit" className="btn btn-primary">
+                          Submit
+                        </button>
+                      </form>
+                  )}
                 </div>: 
                 <div></div>}
                 { authState?.roles === 'user' ?<div>

@@ -48,9 +48,17 @@ function PinjamPage(props) {
             let url = 'http://34.27.70.84/book/ajukan-pinjam?idbuku='+idbook.id+'&returndate='+selesai
             const res = await PrivateAxios.post(url)
             if (res.status === 200) {
-                let url = 'http://34.27.70.84/stock/update?id='+idbook.id+'&stok=0'
-                await PrivateAxios.put(url)
-                navigate('/detailpeminjaman/'+res['data'][1][0]['id']+'/'+idbook.id)
+                let updatedStok = book.stok-1;
+                console.log("stok "+updatedStok)
+                let url = 'http://34.27.70.84/stock/update?id='+idbook.id+'&stok='+updatedStok
+                const rex = await PrivateAxios.put(url)
+
+                if (rex.status === 200) {
+                    navigate('/detailpeminjaman/' + res['data'][1][0]['id'] + '/' + idbook.id)
+                }
+                else {
+                    console.log(rex.status)
+                }
             } else {
             }
           }
