@@ -16,19 +16,16 @@ import filterFactory, { textFilter, selectFilter } from 'react-bootstrap-table2-
 import 'react-bootstrap-table2-filter/dist/react-bootstrap-table2-filter.min.css';
 const AllPeminjamanPage = () => {
     const [books, setBooks] = useState([])
-    const [currentPage, setCurrentPage] = useState(1);
 
     const fetchBooks = async () => {
         const response = await fetch("http://34.27.70.84/book/get-all-peminjaman").then(async (response) => {
             if (response.status == 200) {
                 const Books = await response.json()
-                console.log(Books)
                 setBooks(Books)
             }
             throw new Error('not Found');
             })
             .then((responseJson) => {
-            console.log(responseJson)
             setBooks(responseJson)
             })
             .catch((error) => {
@@ -41,9 +38,11 @@ const AllPeminjamanPage = () => {
     }, [])
 
     const selectOptions = {
-        'dipinjam': 'Borrowed',
-        'ditolak': 'Rejected',
-        'dikembalikan': 'Returned'
+        'Borrowed': 'Borrowed',
+        'Borrowed. Past the due date': 'Borrowed. Past the due date',
+        'Borrowed. Due today': 'Borrowed. Due today',
+        'Rejected': 'Rejected',
+        'Returned': 'Returned'
       };
       
 
@@ -87,11 +86,13 @@ const AllPeminjamanPage = () => {
         {
             dataField: "status",
             text: "Status",
-            formatter: (cell, row) => <a>{cekStatus(cell)}</a>,
+            formatter: (cell, row) => <a>{cekStatus(cell, row.return_date)}</a>,
             filter: selectFilter({
                 options: selectOptions
-              })
+              }),
             
+            // filter: textFilter(),
+            filterValue: (cell, row) => cekStatus(cell, row.return_date)
         },
         {
             text: "Action",
@@ -145,16 +146,41 @@ const AllPeminjamanPage = () => {
     )
 }
 
-function cekStatus(status){
-    if (status=='dipinjam') {
-          return 'Borrowed'
-      } if (status=='diajukan') {
-      return 'In request'
-    } if (status=='ditolak') {
-        return 'Rejected'
-      } else {
-        return 'Returned'
-    }
+function getSelisih(selesai){
+    let hariini = new Date(getCurrentDate())
+    let selesaia = new Date(selesai)
+    const diffTime = (selesaia - hariini);
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
+    
+    return diffDays
 }
+
+function cekStatus(status, selesai){
+    let selisih = getSelisih(selesai)
+    if (status=='dipinjam') {
+      if (selisih<0) {
+          return 'Borrowed. Past the due date'
+      } if (selisih == 0) {
+          return 'Borrowed. Due today'
+      } else {
+          return 'Borrowed'
+      }
+  } if (status=='diajukan') {
+      return 'In request, ask the librarian to accept your request'
+  } if (status=='pengembalian') {
+    return 'In request to return book, ask the librarian to accept your request'
+  } else {
+    return 'Returned'
+  }
+}
+
+function getCurrentDate(separator='-'){
+    let newDate = new Date()
+    let date = newDate.getDate();
+    let month = newDate.getMonth() + 1;
+    let year = newDate.getFullYear();
+    
+    return `${year}${separator}${month<10?`0${month}`:`${month}`}${separator}${date<10?`0${date}`:`${date}`}`
+  }
 
 export default AllPeminjamanPage

@@ -29,7 +29,6 @@ const DetailPeminjamanAdmin = () => {
 
   const handleReject = (param) => async e => {
     e.preventDefault()
-    console.log(param)
     try {
     const url = 'http://34.27.70.84/book/tolak-pinjam?idpeminjaman='+param
     const res = await PrivateAxios.put(url)
@@ -37,7 +36,6 @@ const DetailPeminjamanAdmin = () => {
       console.log("API put failed", error)
   });
     if (res.status === 200) {
-        console.log(res['data'])
         window.location.reload();
     } else {
     }
@@ -48,15 +46,13 @@ const DetailPeminjamanAdmin = () => {
 
   const handleConfirm = (param) => async e => {
       e.preventDefault()
-      console.log(param)
       try {
-      const url = 'http://34.27.70.84/book/konfirmasi-pinjam?idpeminjaman='+param
+      const url = 'http://34.27.70.84/book/konfirmasi-pinjam?idpeminjaman='+param+'&returndate='+getCurrentDate()
       const res = await PrivateAxios.put(url)
     .catch(error => {
         console.log("API put failed", error)
     });
       if (res.status === 200) {
-          console.log(res['data'])
           window.location.reload();
       } else {
       }
@@ -65,9 +61,8 @@ const DetailPeminjamanAdmin = () => {
     }
     }
 
-    const handleRejectTolak = (param) => async e => {
+    const handleRejectPengembalian = (param) => async e => {
       e.preventDefault()
-      console.log(param)
       try {
       const url = 'http://34.27.70.84/book/tolak-pengembalian?idpeminjaman='+param
       const res = await PrivateAxios.put(url)
@@ -83,9 +78,8 @@ const DetailPeminjamanAdmin = () => {
     }
     }
 
-  const handleConfirmTolak = (param) => async e => {
+  const handleConfirmPengembalian = (param) => async e => {
       e.preventDefault()
-      console.log(param)
       try {
       const url = 'http://34.27.70.84/book/konfirmasi-pengembalian?idpeminjaman='+param
       const res = await PrivateAxios.put(url)
@@ -117,7 +111,7 @@ const DetailPeminjamanAdmin = () => {
         <h3>Borrower: {data.username}</h3>
         <h3>Start Date: {mulai}</h3>
         <h3>End Date: {data.return_date}</h3>
-        <h3>Status: {cekStatus(data.status, data.return_date)}</h3>
+        {data.status == 'dikembalikan'?<h3>Status: {cekStatus(data.status, data.return_date)}, {data.returned_date}</h3>:<h3>Status: {cekStatus(data.status, data.return_date)}</h3>}
         {data.reminder ? <h3>With Target Reminder: Yes</h3>:<h3>With Target Reminder: No</h3>}
         {data.status == 'dipinjam' ? <h3>Time Remaining: {getSelisih(data.return_date)} days</h3>:null}
         <div className={classes.item}>
@@ -127,10 +121,10 @@ const DetailPeminjamanAdmin = () => {
             <button className="btn btn-danger" onClick={handleReject(data.id)}>
                     Reject 
                   </button></div>}
-        {data.status != 'pengembalian' ? null: <div><button className="btn btn-success" onClick={handleConfirmTolak(data.id)}> Confirm 
+        {data.status != 'pengembalian' ? null: <div><button className="btn btn-success" onClick={handleConfirmPengembalian(data.id)}> Confirm 
                   </button>
                    
-            <button className="btn btn-danger" onClick={handleRejectTolak(data.id)}>
+            <button className="btn btn-danger" onClick={handleRejectPengembalian(data.id)}>
                     Reject 
                   </button></div>}
                   

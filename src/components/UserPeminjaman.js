@@ -20,8 +20,6 @@ const UserPeminjaman = () => {
         const response = await PrivateAxios.get("http://34.27.70.84/book/get-peminjaman-user-admin?username="+params.user)
         if (response.status === 200) {
           setpeminjaman(response['data'])
-
-          console.log(peminjaman)
       }
     } catch {
     }
