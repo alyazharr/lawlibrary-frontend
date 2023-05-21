@@ -4,7 +4,7 @@ import React, { useState, useEffect,useContext } from 'react';
 import classes from '../context/TargetReminder.module.css'
 import classesCard from '../context/Card.module.css'
 
-function TargetReminderForm(props) {
+function Stock(props) {
     const idbook = useParams();
     const [stok, setStok] = useState(0);
     const [book, setbook] = useState([])
@@ -76,4 +76,4 @@ function TargetReminderForm(props) {
     )
 }
 
-export default TargetReminderForm
+export default Stock

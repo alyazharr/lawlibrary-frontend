@@ -20,7 +20,8 @@ const ReturnPeminjamanReq = () => {
     const PrivateAxios = useAxiosPrivate()
     const navigate = useNavigate();
     const [books, setBooks] = useState([])
-
+    const [data, setdata] = useState([])
+    const [book, setbook] = useState([])
     const handleReject = (param) => async e => {
         e.preventDefault()
         console.log(param)
@@ -40,17 +41,23 @@ const ReturnPeminjamanReq = () => {
       }
 
     const handleConfirm = (param) => async e => {
+
         e.preventDefault()
-        console.log(param)
+        console.log("buku"+param.buku[0])
         try {
-        const url = 'http://34.27.70.84/book/konfirmasi-pengembalian?idpeminjaman='+param
+        const url = 'http://34.27.70.84/book/konfirmasi-pengembalian?idpeminjaman='+param.id
         const res = await PrivateAxios.put(url)
+        let updatedStok = param.buku[0].stok+1;
+        console.log("stok: "+updatedStok)
+        let urlUpdate = 'http://34.27.70.84/stock/update?id='+param.buku[0].id+'&stok='+updatedStok
+        const hasil = await PrivateAxios.put(urlUpdate)
       .catch(error => {
           console.log("API put failed", error)
       });
-        if (res.status === 200) {
+        if (res.status === 200 && hasil.status === 200) {
             window.location.reload();
         } else {
+            console.log(hasil['data'])
         }
       } catch (err) {
         console.log(err);
@@ -59,7 +66,7 @@ const ReturnPeminjamanReq = () => {
 
     const fetchBooks = async () => {
         const response = await fetch("http://34.27.70.84/book/get-all-returning-request").then(async (response) => {
-            if (response.status == 200) {
+            if (response.status === 200) {
                 const Books = await response.json()
                 setBooks(Books)
             }
@@ -89,7 +96,11 @@ const ReturnPeminjamanReq = () => {
         alwaysShowAllBtns: true,
     })
 
-
+    const lol = (param) => {
+        console.log("idbuku"+param.buku[0].id)
+        console.log("stok"+param.buku[0].stok)
+        console.log("idpinjam"+param.id)
+    }
     const column = [
         {
             dataField: "username",
@@ -136,7 +147,7 @@ const ReturnPeminjamanReq = () => {
                         Detail 
                       </button>
                       </Link>
-                <button className="btn btn-success" onClick={handleConfirm(row.id)}> Confirm 
+                <button className="btn btn-success" onClick={handleConfirm(row)}> Confirm
                   </button>
                    
             <button className="btn btn-danger" onClick={handleReject(row.id)}>
