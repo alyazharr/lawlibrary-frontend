@@ -24,7 +24,6 @@ const ReturnPeminjamanReq = () => {
     const [book, setbook] = useState([])
     const handleReject = (param) => async e => {
         e.preventDefault()
-        console.log(param)
         try {
         const url = 'http://34.27.70.84/book/tolak-pengembalian?idpeminjaman='+param
         const res = await PrivateAxios.put(url)
@@ -43,9 +42,8 @@ const ReturnPeminjamanReq = () => {
     const handleConfirm = (param) => async e => {
 
         e.preventDefault()
-        console.log("buku"+param.buku[0])
         try {
-        const url = 'http://34.27.70.84/book/konfirmasi-pengembalian?idpeminjaman='+param.id
+        const url = 'http://34.27.70.84/book/konfirmasi-pengembalian?idpeminjaman='+param+'&returndate='+getCurrentDate()
         const res = await PrivateAxios.put(url)
         let updatedStok = param.buku[0].stok+1;
         console.log("stok: "+updatedStok)
@@ -73,7 +71,6 @@ const ReturnPeminjamanReq = () => {
             throw new Error('not Found');
             })
             .then((responseJson) => {
-            console.log(responseJson)
             setBooks(responseJson)
             })
             .catch((error) => {
@@ -185,5 +182,14 @@ const ReturnPeminjamanReq = () => {
         </div>
     )
 }
+
+function getCurrentDate(separator='-'){
+    let newDate = new Date()
+    let date = newDate.getDate();
+    let month = newDate.getMonth() + 1;
+    let year = newDate.getFullYear();
+    
+    return `${year}${separator}${month<10?`0${month}`:`${month}`}${separator}${date<10?`0${date}`:`${date}`}`
+  }
 
 export default ReturnPeminjamanReq

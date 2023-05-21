@@ -20,8 +20,6 @@ import {useAxiosPrivate} from '../utils/bookUtil';
         // const peminjaman = await response.json()
         if (response.status === 200) {
           setpeminjaman(response['data'])
-
-          console.log(peminjaman)
       }
     } catch {
     }
@@ -32,8 +30,6 @@ import {useAxiosPrivate} from '../utils/bookUtil';
         // const targetreminder = await response.json()
         if (response.status === 200) {
           settargetreminder(response['data'])
-
-          console.log(targetreminder)
       }
 
     }

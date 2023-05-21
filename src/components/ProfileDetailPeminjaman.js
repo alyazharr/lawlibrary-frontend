@@ -28,7 +28,6 @@ const ProfileDetailPeminjaman = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("masuk sini")
     try {
       const url = 'http://34.27.70.84/book/ajukan-pengembalian?idpeminjaman='+params.id
       let resp = await PrivateAxios.put(url)
