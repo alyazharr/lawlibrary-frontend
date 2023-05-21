@@ -8,7 +8,7 @@ function LoginForm() {
   const {authState, setAuthState} = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
-  const from = location.state?.from?.pathname || "/";
+  const from = location.state?.from?.pathname || "/home";
   const [user, setUser] = useState('');
 
   const [pwd, setPwd] = useState('');
@@ -28,10 +28,8 @@ function LoginForm() {
     })
       .then((response) => {
         if (response.status == '200') {
-          console.log(response.data)
           setAuthState({username: user, password: pwd,accessToken: response.data.accessToken, roles: response.data.roles })
           localStorage.setItem('refreshToken',response.data.refreshToken)
-          console.log(authState);
           setUser('');
           setPwd('');
           navigate(from, { replace: true });
@@ -44,10 +42,6 @@ function LoginForm() {
           setErrMsg(err.response.data.message);
         }
       });
-
-
-
-
     console.log(e);
   }
 

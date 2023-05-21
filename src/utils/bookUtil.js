@@ -4,7 +4,7 @@ import {useEffect } from "react";
 import { useAuth } from "../context/GlobalStates";
 
 const client = axios.create({
-    baseURL: "http://34.133.211.90" 
+    baseURL: "http://34.27.70.84" 
   });
 
 const useAxiosPrivate = () => {

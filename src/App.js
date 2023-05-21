@@ -14,12 +14,18 @@ import ProfileDetailTargetReminder from './components/ProfileDetailTargetReminde
 import TargetReminderForm from './components/TargetReminderForm';
 import DetailTargetReminder from './components/DetailTargetReminder';
 import DetailPeminjaman from './components/DetailPeminjaman';
+import DetailPeminjamanAdmin from './components/DetailPeminjamanAdmin';
 import DetailBuku from './components/DetailBuku';
 import PinjamPage from './components/PinjamPage';
 import PersistLogin from './components/PersistLogin';
 import ReviewPage from './components/ReviewPage';
 import ReviewDetail from './components/ReviewDetail';
 import MyReview from './components/MyReview';
+import RequestPeminjamanPage from './components/RequestPeminjamanPage';
+import ReturnPeminjamanReq from './components/ReturnPeminjamanReq';
+import DetailRequestBook from './components/DetailRequestBook'
+import AllPeminjamanPage from './components/AllPeminjamanPage'
+import UserPeminjaman from './components/UserPeminjaman'
 import Stock from "./components/Stock";
 const ROLES = {
     'User': 'user',
@@ -44,7 +50,6 @@ function App() {
                         path="auth/login"
                         element={<LoginForm />}
                     />
-                    {/* belum ditambahin auth guys */}
                     <Route
                         path="detailBuku/:id"
                         element={<DetailBuku />}
@@ -59,6 +64,33 @@ function App() {
                     />
 
                     {/*protected routes*/}
+
+                    <Route element={<RequireAuth allowedRoles={ROLES.Admin} />}>
+                    <Route
+                        path="reqPeminjaman"
+                        element={<RequestPeminjamanPage />}
+                    />
+                    <Route
+                        path="user-peminjaman/:user/:email"
+                        element={<UserPeminjaman />}
+                    />
+                    <Route
+                        path="returnPeminjaman"
+                        element={<ReturnPeminjamanReq />}
+                    />
+                    <Route
+                        path="allPeminjaman"
+                        element={<AllPeminjamanPage />}
+                    />
+                    <Route
+                            path="detailb/:id"
+                            element={<DetailRequestBook />}
+                        />
+                    <Route
+                        path="detailpeminjamanadmin/:id/:idbuku"
+                        element={<DetailPeminjamanAdmin />}
+                    />
+                    </Route>
 
                     <Route element={<RequireAuth allowedRoles={ROLES.User} />}>
                         <Route

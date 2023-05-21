@@ -13,7 +13,7 @@ function TargetReminderForm(props) {
   const navigate = useNavigate();
   
   const fetchbook = async () => {
-    const url = "http://34.133.211.90/book/get-book-by-id?id=" + idbook.id
+    const url = "http://34.27.70.84/book/get-book-by-id?id=" + idbook.id
     const response = await fetch(url)
     const buku = await response.json()
     setbook(Object.values(buku)[0])
@@ -31,15 +31,16 @@ function TargetReminderForm(props) {
     } else {
         setErrMsg('')
     try {
-        const url = 'http://34.133.211.90/book/target-reminder?idbuku='+idbook.id+'&targetdate='+tglselesai
-        const res = await PrivateAxios.post(url)
-      .catch(error => {
-          console.log("API Review not catching data", error)
-      });
+        let url = 'http://34.27.70.84/book/target-reminder?idbuku='+idbook.id+'&targetdate='+tglselesai
+        let res = await PrivateAxios.post(url)
         if (res.status === 200) {
-          navigate('/detailtargetreminder/'+res['data'][1][0]['id']+'/'+idbook.id)
-        } else {
-        }
+        } 
+        let url2 = 'http://34.27.70.84/book/target-reminder-start?idreminder='+res['data'][1][0]['id']
+        const res2 = await PrivateAxios.get(url2)
+        if (res2.status === 200) {
+           console.log(res['data'][1][0]['id'])
+           navigate('/detailtargetreminder/'+res['data'][1][0]['id']+'/'+idbook.id)
+        } 
       } catch (err) {
         console.log(err);
       }

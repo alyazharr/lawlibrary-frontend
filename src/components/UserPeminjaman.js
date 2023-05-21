@@ -1,23 +1,23 @@
 import '../Styles/Layout.css'
 import { Row, Col, Container, Button, Form, Card } from 'react-bootstrap'
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import classes from '../context/Card.module.css'
 import React, { useEffect, useState } from "react"
 import Pagination from './Pagination';
 import {useAxiosPrivate} from '../utils/bookUtil';
     
-  const Profile = () => {
+const UserPeminjaman = () => {
     const PrivateAxios = useAxiosPrivate()
+    const navigate = useNavigate()
+    const params = useParams();
     const [peminjaman, setpeminjaman] = useState([])
-    const [targetreminder, settargetreminder] = useState([])
     const [books, setbooks] = useState([])
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 20;
 
     const fetchpeminjaman = async () => {
       try {
-        const response = await PrivateAxios.get("http://34.27.70.84/book/get-peminjaman-user")
-        // const peminjaman = await response.json()
+        const response = await PrivateAxios.get("http://34.27.70.84/book/get-peminjaman-user-admin?username="+params.user)
         if (response.status === 200) {
           setpeminjaman(response['data'])
 
@@ -27,20 +27,9 @@ import {useAxiosPrivate} from '../utils/bookUtil';
     }
 
     }
-    const fetchtargetreminder = async () => {
-        const response = await PrivateAxios.get("http://34.27.70.84/book/get-targetreminder-user")
-        // const targetreminder = await response.json()
-        if (response.status === 200) {
-          settargetreminder(response['data'])
-
-          console.log(targetreminder)
-      }
-
-    }
 
     useEffect(() => {
         fetchpeminjaman()
-        fetchtargetreminder()
 
     }, [])
 
@@ -57,7 +46,9 @@ import {useAxiosPrivate} from '../utils/bookUtil';
         <div className="layout">
 
             <div className={classes.content}>
-                <h1>Lending Book History</h1>
+                <h1>Borrowing Book History</h1>
+                <h1>User: {params.user}</h1>
+                <h2>Email: {params.email}</h2>
                 <br></br>
                 {peminjaman == '' ? <h2>No Data</h2>:null}
                 <div className="d-flex flex-wrap">
@@ -80,7 +71,7 @@ import {useAxiosPrivate} from '../utils/bookUtil';
                                     End Date: {peminjaman.return_date}
                                 </Card.Text></div>:null}
                                 <Link to={{
-                                    pathname: `/profiledetailpeminjaman/${peminjaman.id}/${peminjaman.id_buku}`,
+                                    pathname: `/detailpeminjamanadmin/${peminjaman.id}/${peminjaman.id_buku}`,
                                 }}
                                 ><button className="btn btn-primary">
                                         Detail
@@ -91,40 +82,9 @@ import {useAxiosPrivate} from '../utils/bookUtil';
 
                     ))}
                 </div>
+                <button className="btn btn-secondary" onClick={() => navigate(-1)}>Back</button>
             </div>
-            <div className={classes.content}>
-                <h1>Reading Reminder History</h1>
-                <br></br>
-                {targetreminder == '' ? <h2>No Data</h2>:null}
-                <div className="d-flex flex-wrap">
-                    {targetreminder?.map((targetmembaca) => (
-
-                        <Card style={{ width: '13rem', margin: '5px' }} key={targetmembaca.id}>
-                            <Card.Img variant="top" src={targetmembaca['buku'][0].image_url_l} />
-                            <Card.Body>
-                                <Card.Title>{targetmembaca['buku'][0].title}</Card.Title>
-                                <Card.Text>
-                                    {targetmembaca['buku'][0].author}
-                                </Card.Text>
-                                <Card.Text>
-                                    Start Date: {targetmembaca.start_date.slice(0,10)}
-                                </Card.Text>
-                                <Card.Text>
-                                    End Date: {targetmembaca.target_date}
-                                </Card.Text>
-                                <Link to={{
-                                    pathname: `/profiledetailtargetreminder/${targetmembaca.id}/${targetmembaca.id_buku}`,
-                                }}
-                                ><button className="btn btn-primary">
-                                        Detail
-                                    </button>
-                                </Link>
-                            </Card.Body>
-                        </Card>
-
-                    ))}
-                </div>
-            </div>
+            
             
             <Row>
                 <div style={{ display: "flex", justifyContent: "center" }}>
@@ -138,6 +98,8 @@ import {useAxiosPrivate} from '../utils/bookUtil';
                         /></div>
                 </div>
             </Row>
+
+            
 
         </div>
 
@@ -157,17 +119,17 @@ function cekStatus(status, selesai){
     let selisih = getSelisih(selesai)
     if (status=='dipinjam') {
       if (selisih<0) {
-          return 'Already past the due date. Please return the book immediately.'
+          return 'Already past the due date'
       } if (selisih == 0) {
-          return 'Borrowed. Please return the book today.'
+          return 'Borrowed. Due date is today'
       } else {
           return 'Borrowed'
       }
   } if (status=='diajukan') {
-      return 'In request, ask the librarian to accept your request.'
+      return 'In request'
   } if (status=='pengembalian') {
-    return 'In request to return book, ask the librarian to accept your request.'
-    }if (status=='ditolak') {
+    return 'In request to return book'
+    } if (status=='ditolak') {
         return 'Borrowing request is rejected'
         } else {
     return 'Returned'
@@ -183,4 +145,4 @@ function getCurrentDate(separator='-'){
     return `${year}${separator}${month<10?`0${month}`:`${month}`}${separator}${date<10?`0${date}`:`${date}`}`
   }
 
-export default Profile
+export default UserPeminjaman

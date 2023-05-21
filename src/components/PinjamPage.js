@@ -13,7 +13,7 @@ function PinjamPage(props) {
   const navigate = useNavigate();
   
   const fetchbook = async () => {
-    const url = "http://34.133.211.90/book/get-book-by-id?id=" + idbook.id
+    const url = "http://34.27.70.84/book/get-book-by-id?id=" + idbook.id
     const response = await fetch(url)
     const buku = await response.json()
     setbook(Object.values(buku)[0])
@@ -33,21 +33,27 @@ function PinjamPage(props) {
         setErrMsg('')
     try {
         if (reminder){
-                let url = 'http://34.133.211.90/book/target-reminder?idbuku='+idbook.id+'&targetdate='+selesai
+                let url = 'http://34.27.70.84/book/target-reminder?idbuku='+idbook.id+'&targetdate='+selesai
                 let res = await PrivateAxios.post(url)
                 if (res.status === 200) {
-                    console.log('Reminder Success')
-                } else {
+                 
+                console.log(res.data[1][0]['id'])
+                let url2 = 'http://34.27.70.84/book/ajukan-pinjam?idbuku='+idbook.id+'&returndate='+selesai+'&reminder='+res.data[1][0]['id']
+                let res2 = await PrivateAxios.post(url2)
+                if (res2.status === 200) {
+                  navigate('/detailpeminjaman/'+res2['data'][1][0]['id']+'/'+idbook.id)
                 }
-        }
-            let url = 'http://34.133.211.90/book/konfirmasi-pinjam?idbuku='+idbook.id+'&returndate='+selesai
+              }
+        } else {
+            let url = 'http://34.27.70.84/book/ajukan-pinjam?idbuku='+idbook.id+'&returndate='+selesai
             const res = await PrivateAxios.post(url)
             if (res.status === 200) {
-                let url = 'http://34.133.211.90/stock/update?id='+idbook.id+'&stok=0'
+                let url = 'http://34.27.70.84/stock/update?id='+idbook.id+'&stok=0'
                 await PrivateAxios.put(url)
                 navigate('/detailpeminjaman/'+res['data'][1][0]['id']+'/'+idbook.id)
             } else {
             }
+          }
       } catch (err) {
         console.log(err);
       }
@@ -56,7 +62,7 @@ function PinjamPage(props) {
 
   return (
     <div className={classes.content}>
-    <h1>Pinjam Buku</h1>
+    <h1>Request to borrow the book</h1>
     <br></br>
         <div key={book.id}>
       <img className={classes.img} src={book.image_url_l}></img>
@@ -73,7 +79,7 @@ function PinjamPage(props) {
           id="reminder" 
           name="reminder"
           onChange={() => setreminder(!reminder)}
-          value={reminder} />  Kirim reminder membaca
+          value={reminder} />  Send me a reading reminder
            </div>
         </div>
         <div className={classes.item}>
@@ -86,7 +92,7 @@ function PinjamPage(props) {
             </button>
             </Link>
           <button type="submit" className="btn btn-primary">
-            Konfirmasi Pinjam
+            Request to Borrow
           </button>
         </div>
       </form>

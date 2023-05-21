@@ -37,7 +37,9 @@ function Header() {
                 </div>: 
                 <div></div>}
                  { authState?.roles === 'admin' ? <div>
-                <a href="/#">Admin Page</a>
+                <a href="/reqPeminjaman">Borrow Book Request</a>
+                <a href="/returnPeminjaman">Return Book Request</a>
+                <a href="/allPeminjaman">Borrowed Books List</a>
                 </div>: 
                 <div></div>}
                 { !authState?.username ? <div>

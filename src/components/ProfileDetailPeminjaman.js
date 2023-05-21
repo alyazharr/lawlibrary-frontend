@@ -12,7 +12,7 @@ const ProfileDetailPeminjaman = () => {
   const [mulai, setmulai] = useState([])
   
   const fetchdata = async () => {
-    const url = "http://34.133.211.90/book/get-peminjaman?id=" + params.id
+    const url = "http://34.27.70.84/book/get-peminjaman?id=" + params.id
     const response = await fetch(url)
     const datas = await response.json()
     setdata(Object.values(datas)[0])
@@ -20,7 +20,7 @@ const ProfileDetailPeminjaman = () => {
     }
 
   const getBook = async () => {
-    const url = "http://34.133.211.90/book/get-book-by-id?id=" + params.idbuku
+    const url = "http://34.27.70.84/book/get-book-by-id?id=" + params.idbuku
     const response = await fetch(url)
     const books = await response.json()
     setbook(Object.values(books)[0])
@@ -30,7 +30,7 @@ const ProfileDetailPeminjaman = () => {
     e.preventDefault();
     console.log("masuk sini")
     try {
-      const url = 'http://34.133.211.90/book/konfirmasi-pengembalian?idpeminjaman='+params.id
+      const url = 'http://34.27.70.84/book/ajukan-pengembalian?idpeminjaman='+params.id
       let resp = await PrivateAxios.put(url)
       if (resp.status === 200) {
         console.log(resp['data'])
@@ -50,21 +50,21 @@ const ProfileDetailPeminjaman = () => {
   return (
       <div className={classes.content}>
       <div>
-        <h1>Detail Peminjaman</h1>
+        <h1>Borrowing Book Detail</h1>
         <hr></hr>
         <h1>{book.title}</h1>
       <img className={classes.img} src={book.image_url_l} style={{ margin:'5px', padding:'10px'}}></img>
         <h3>Author: {book.author}</h3>
-        <h3>Tanggal peminjaman: {mulai}</h3>
-        <h3>Tanggal pengembalian: {data.return_date}</h3>
-        {data.status == 'dikembalikan' ? null:<h3>Sisa waktu peminjaman: {getSelisih(data.return_date)} hari</h3>}
+        <h3>Start Date: {mulai}</h3>
+        <h3>End Date: {data.return_date}</h3>
+        {data.status == 'dikembalikan' | data.status == 'pengembalian' ? null:<h3>Time remaining: {getSelisih(data.return_date)} days</h3>}
         <h3>Status: {cekStatus(data.status, data.return_date)}</h3>
         <div className={classes.item}>
         <Link to="/profile"><button className="btn btn-secondary">
               Back 
             </button>
             </Link>
-        {data.status == 'dikembalikan' ? null:<button className="btn btn-success" onClick={handleSubmit}>Konfirmasi Pengembalian</button>}
+        {data.status == 'dikembalikan' |  data.status == 'pengembalian'? null:<button className="btn btn-success" onClick={handleSubmit}>Return Book</button>}
         </div>
     </div>
     </div>
@@ -84,14 +84,18 @@ function cekStatus(status, selesai){
     let selisih = getSelisih(selesai)
     if (status=='dipinjam') {
       if (selisih<0) {
-          return 'Telat dikembalikan'
+          return 'Already past the due date. Please return the book immediately.'
       } if (selisih == 0) {
-          return 'Sedang dipinjam. Kembalikan hari ini'
+          return 'Borrowed. Please return the book today.'
       } else {
-          return 'Sedang dipinjam'
+          return 'Borrowed'
       }
+  } if (status=='diajukan') {
+      return 'In request, ask the librarian to accept your request.'
+  } if (status=='pengembalian') {
+    return 'In request to return book, ask the librarian to accept your request.'
   } else {
-    return 'Sudah dikembalikan'
+    return 'Returned'
   }
 }
 
