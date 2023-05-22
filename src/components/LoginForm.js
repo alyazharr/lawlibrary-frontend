@@ -1,5 +1,5 @@
 import '../Styles/LoginForm.css'
-import {useNavigate, useLocation } from 'react-router-dom';
+import {useNavigate, useLocation, Link } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/GlobalStates';
 import { client } from '../utils/clientUtil';
@@ -90,8 +90,8 @@ function LoginForm() {
           </button>
         </div>
         <p className="forgot-password text-right">
-              Haven't Registered? <a href="/sign-in">sign Up?</a>
-            </p>
+          Haven't registered yet? <Link to={`/auth/register`}>Sign Up</Link>
+        </p>
       </form>
 
     </section>

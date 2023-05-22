@@ -40,11 +40,14 @@ function RegistrationForm() {
     const validUsername = USER_REGEX.test(user);
     const validPassword = PWD_REGEX.test(pwd);
     const validEmail = EMAIL_REGEX.test(email)
+    const validMatch = pwd === matchPwd && pwd != ''
 
-    if (!validUsername | !validPassword | !validEmail) {
+    if (!validUsername | !validPassword | !validEmail | !validMatch) {
       setErrMsg('Invalid Username or Email or Password.')
       return
     }
+
+    
 
 
     client
@@ -98,12 +101,17 @@ function RegistrationForm() {
     <div className='register'>
       {success ? (<section>
 
-      <p> success</p>
+        <div className="jumbotron">
+          <h1 className="display-4">Registration Success!</h1>
+          <hr className="my-4"/>
+          <p>You can click this button to Sign in.</p>
+          <button type="button" className="btn btn-primary"><Link style={{textDecoration: 'none', color: '#FFF'}} to={`/auth/login`}>Sign in</Link></button>  
+        </div>
       </section>) :
 
         <section className='register-form'>
           <p className={errMsg ? "errmsg" : "hide"} aria-live="assertive">{errMsg}</p>
-          <form className='m-2' onSubmit={handleSubmit}>
+          <form className='m-2' onSubmit={handleSubmit}   autoComplete='off'>
             <h3>Sign Up</h3>
             <div className="mb-3">
               <label htmlFor='username'>
@@ -184,6 +192,7 @@ function RegistrationForm() {
                 id='confirm-password'
                 type="password"
                 value={matchPwd}
+                autoComplete='off'
                 onChange={(e) => setMatchPwd(e.target.value)}
                 required
                 className="form-control"

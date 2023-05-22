@@ -1,0 +1,14 @@
+stages:
+  - deploy
+
+deploy:
+  stage: deploy
+  image: alpine:latest
+  before_script:
+    - apk update && apk add openssh-client
+    - chmod 400 ${SSH_PRIV_KEY}
+  script:
+    - ssh -o StrictHostKeyChecking=no -i ${SSH_PRIV_KEY} agnes_audya@34.29.43.52 "
+      sudo bash testing.sh"
+  only:
+    - master
