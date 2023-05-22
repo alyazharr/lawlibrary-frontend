@@ -38,7 +38,7 @@ const BookRecommendation = () =>{
 
         e.preventDefault();
 
-        axios.post('http://localhost:8080/book-recommendation/', {
+        axios.post('http://34.27.70.84/book-recommendation/', {
             title: bookTitle
         })
         .then(response => {
