@@ -164,7 +164,7 @@ function cekStatus(status, selesai){
   } if (status=='pengembalian') {
     return 'In request to return book, ask the librarian to accept your request.'
     }if (status=='ditolak') {
-        return 'Borrowing request is rejected'
+        return 'Borrowing request is rejected.'
         } else {
     return 'Returned'
   }
