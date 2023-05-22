@@ -43,7 +43,7 @@ const ReturnPeminjamanReq = () => {
 
         e.preventDefault()
         try {
-        const url = 'http://34.27.70.84/book/konfirmasi-pengembalian?idpeminjaman='+param+'&returndate='+getCurrentDate()
+        const url = 'http://34.27.70.84/book/konfirmasi-pengembalian?idpeminjaman='+param.id+'&returndate='+getCurrentDate()
         const res = await PrivateAxios.put(url)
         let updatedStok = param.buku[0].stok+1;
         console.log("stok: "+updatedStok)
