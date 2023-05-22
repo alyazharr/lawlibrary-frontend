@@ -32,7 +32,7 @@ function Header() {
                 <Link to={`/profile`}>Profile</Link>
                 <Link to={`/my-reviews`}>My Review</Link> 
                 <Link to={`/reviews`}>Book Review</Link>
-                <a href="/#">Book Recommendation</a>
+                <a href="/book-recommendation">Book Recommendation</a>
                 <Link to={`/books/search`}>Book Search</Link>
                 </div>: 
                 <div></div>}
@@ -40,6 +40,7 @@ function Header() {
                 <a href="/reqPeminjaman">Borrow Book Request</a>
                 <a href="/returnPeminjaman">Return Book Request</a>
                 <a href="/allPeminjaman">Borrowed Books List</a>
+                <a href="/add-buku">Add Book Data</a>
                 </div>: 
                 <div></div>}
                 { !authState?.username ? <div>

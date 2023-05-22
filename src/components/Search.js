@@ -1,6 +1,6 @@
 import '../Styles/Layout.css'
 import React, { Component } from 'react'
-import { API_SEARCH_TITLE, API_SEARCH_AUTHOR, API_SEARCH_ISBN } from '../utils/searchConstant'
+import { API_SEARCH_TITLE, API_SEARCH_AUTHOR, API_SEARCH_ISBN, API_SEARCH_PUBLISHER } from '../utils/searchConstant'
 import axios from 'axios'
 import { Row, Col, Container, Button, Form, Card } from 'react-bootstrap'
 import classes from '../context/Card.module.css'
@@ -16,6 +16,7 @@ export default class Search extends Component {
             searchQueryTitle: "",
             searchQueryAuthor: "",
             searchQueryISBN: "",
+            searchQueryPublisher: "",
             booksResult: [],
             currentPage: 1,
             itemsPerPage: 10,
@@ -23,9 +24,11 @@ export default class Search extends Component {
         this.handleInputChangeTitle = this.handleInputChangeTitle.bind(this);
         this.handleInputChangeAuthor = this.handleInputChangeAuthor.bind(this);
         this.handleInputChangeISBN = this.handleInputChangeISBN.bind(this);
+        this.handleInputChangePublisher = this.handleInputChangePublisher.bind(this);
         this.handleFormSubmitTitle = this.handleFormSubmitTitle.bind(this);
         this.handleFormSubmitAuthor = this.handleFormSubmitAuthor.bind(this);
         this.handleFormSubmitISBN = this.handleFormSubmitISBN.bind(this);
+        this.handleFormSubmitPublisher = this.handleFormSubmitPublisher.bind(this);
         this.handlePageChange = this.handlePageChange.bind(this);
     }
 
@@ -35,6 +38,7 @@ export default class Search extends Component {
         this.setState({ searchQueryTitle: value });
         this.setState({ searchQueryAuthor: '' });
         this.setState({ searchQueryISBN: '' });
+        this.setState({ searchQueryPublisher: '' });
     }
 
     handleInputChangeAuthor(event) {
@@ -43,6 +47,7 @@ export default class Search extends Component {
         this.setState({ searchQueryAuthor: value });
         this.setState({ searchQueryTitle: '' });
         this.setState({ searchQueryISBN: '' });
+        this.setState({ searchQueryPublisher: '' });
     }
 
     handleInputChangeISBN(event){
@@ -51,6 +56,16 @@ export default class Search extends Component {
         this.setState({ searchQueryISBN: value });
         this.setState({ searchQueryAuthor: '' });
         this.setState({ searchQueryTitle: '' });
+        this.setState({ searchQueryPublisher: '' });
+    }
+    
+    handleInputChangePublisher(event){
+        const target = event.target;
+        const value = target.value;
+        this.setState({ searchQueryPublisher: value });
+        this.setState({ searchQueryAuthor: '' });
+        this.setState({ searchQueryTitle: '' });
+        this.setState({ searchQueryISBN: '' });
     }
 
     handleFormSubmitTitle(event) {
@@ -83,6 +98,19 @@ export default class Search extends Component {
         event.preventDefault();
         const query = this.state.searchQueryISBN;
         axios.get(API_SEARCH_ISBN + `?isbn=${query}`)
+            .then(res => {
+                const bookRes = res.data;
+                this.setState({ booksResult: bookRes });
+            })
+            .catch(error => {
+                console.log("API not catching data", error)
+            })
+    }
+    
+    handleFormSubmitPublisher(event){
+        event.preventDefault();
+        const query = this.state.searchQueryPublisher;
+        axios.get(API_SEARCH_PUBLISHER + `?publisher=${query}`)
             .then(res => {
                 const bookRes = res.data;
                 this.setState({ booksResult: bookRes });
@@ -139,6 +167,15 @@ export default class Search extends Component {
                                         <FontAwesomeIcon icon={faSearch} /></Button>
                                 </Form>
 
+                                <Form onSubmit={this.handleFormSubmitPublisher} className="d-flex align-items-center w-50">
+                                    <Form.Label htmlFor="searchPublisher" className="mr-sm-2">Search By Publisher</Form.Label>
+                                    <Form.Control type="text" id="searchPublisher" value={this.state.searchQueryPublisher}
+                                        onChange={this.handleInputChangePublisher}
+                                        placeholder="Search by book Publisher" className="flex-grow-1 mr-2" style={{ maxWidth: "calc(100% - 4rem)" }} />
+                                    <Button type="submit" className="btn-icon-search w-auto">
+                                        <FontAwesomeIcon icon={faSearch} /></Button>
+                                </Form>
+
                             </Row>
                             <Row>
                                 <Col>
@@ -153,6 +190,10 @@ export default class Search extends Component {
 
                                     {this.state.searchQueryISBN !== '' && (
                                     <h6 className='text-muted'>Results from search <strong>{this.state.searchQueryISBN} ...</strong></h6>
+                                    )}
+                                    
+                                    {this.state.searchQueryPublisher !== '' && (
+                                    <h6 className='text-muted'>Results from search <strong>{this.state.searchQueryPublisher} ...</strong></h6>
                                     )}
 
                                     <hr />

@@ -27,6 +27,9 @@ import DetailRequestBook from './components/DetailRequestBook'
 import AllPeminjamanPage from './components/AllPeminjamanPage'
 import UserPeminjaman from './components/UserPeminjaman'
 import Stock from "./components/Stock";
+import BookRecommendation from "./components/BookRecommendation"
+import RetrieveRecommendation from './components/RetrieveRecommendation';
+import AddBuku from './components/AddBuku';
 const ROLES = {
     'User': 'user',
     'Admin': 'admin'
@@ -90,6 +93,10 @@ function App() {
                         path="detailpeminjamanadmin/:id/:idbuku"
                         element={<DetailPeminjamanAdmin />}
                     />
+                    <Route
+                        path="add-buku"
+                        element={<AddBuku />}
+                    />
                     </Route>
 
                     <Route element={<RequireAuth allowedRoles={ROLES.User} />}>
@@ -129,19 +136,30 @@ function App() {
                             path="detailpeminjaman/:id/:idbuku"
                             element={<DetailPeminjaman />}
                         />
-                    <Route
+                        <Route
                             path="profiledetailpeminjaman/:id/:idbuku"
                             element={<ProfileDetailPeminjaman />}
                         />
-                    <Route
+                        <Route
                             path="profiledetailtargetreminder/:id/:idbuku"
                             element={<ProfileDetailTargetReminder />}
                         />
-                    <Route
-                        path="pinjam/:id"
-                        element={<PinjamPage />}
-                    />
+                        <Route
+                            path="pinjam/:id"
+                            element={<PinjamPage />}
+                        />
+                    
+                        <Route
+                            path='book-recommendation'
+                            element={<BookRecommendation />}
+                        />
+                    
+                        <Route
+                            path="retrieve-recommendation"
+                            element={<RetrieveRecommendation />}
+                        />
                     </Route>
+
 
                 </Route>
             </Route>
