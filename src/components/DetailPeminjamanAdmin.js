@@ -91,10 +91,14 @@ const DetailPeminjamanAdmin = () => {
       try {
       const url = 'http://34.27.70.84/book/konfirmasi-pengembalian?idpeminjaman='+param
       const res = await PrivateAxios.put(url)
+      let updatedStok = book.stok+1;
+      console.log("stok: "+updatedStok)
+      let urlUpdate = 'http://34.27.70.84/stock/update?id='+params.idbuku+'&stok='+updatedStok
+      const hasil = await PrivateAxios.put(urlUpdate)
     .catch(error => {
         console.log("API put failed", error)
     });
-      if (res.status === 200) {
+      if (res.status === 200 && hasil.status === 200) {
           window.location.reload();
       } else {
       }
