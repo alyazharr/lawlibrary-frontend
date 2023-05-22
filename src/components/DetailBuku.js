@@ -1,5 +1,5 @@
 import '../Styles/LoginForm.css'
-import { Link, useParams } from 'react-router-dom';
+import {Link, useNavigate, useParams} from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 import classes from '../context/TargetReminder.module.css'
 import { useAuth } from "../context/GlobalStates";
@@ -12,7 +12,7 @@ const DetailBuku = () => {
   const {authState} = useAuth()
   const [stockInput, setStockInput] = useState("");
   const [showStockForm, setShowStockForm] = useState(false);
-
+  const navigate = useNavigate();
   const handleUpdateStock = () => {
     setShowStockForm(true);
   };
@@ -25,6 +25,15 @@ const DetailBuku = () => {
       window.location.reload();
     }
   };
+  const handlePinjam = () => {
+    console.log(book[0])
+    if (book[0].stok === 0) {
+      alert("Out of Stock, Please Borrow Another Book")
+    }
+    else {
+      navigate('/pinjam/'+book[0].id)
+    }
+  }
 
   const fetchbook = async () => {
     const url = "http://34.27.70.84/book/get-book-by-id?id=" + idbook.id
@@ -81,12 +90,9 @@ const DetailBuku = () => {
               Book Review 
             </button>
             </Link>
-     <Link to={{                            
-          pathname:`/pinjam/${bok.id}`,                            
-        }}><button className="btn btn-warning">
+            <button className="btn btn-warning" onClick={handlePinjam}>
               Borrow
             </button>
-            </Link>
         </div>:<div></div>}
         </div>
         <div className={classes.item}>
