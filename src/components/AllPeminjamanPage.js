@@ -166,8 +166,10 @@ function cekStatus(status, selesai){
           return 'Borrowed'
       }
   } if (status=='diajukan') {
-      return 'In request, ask the librarian to accept your request'
-  } if (status=='pengembalian') {
+    return 'In request, ask the librarian to accept your request'
+} if (status=='ditolak') {
+    return 'Rejected'
+} if (status=='pengembalian') {
     return 'In request to return book, ask the librarian to accept your request'
   } else {
     return 'Returned'
