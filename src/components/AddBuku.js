@@ -38,7 +38,7 @@ const AddBuku = () => {
         setErrMsg('')
         e.preventDefault();
 
-        axios.post('http://localhost:8080/book/add-book',
+        axios.post('http://34.27.70.84/book/add-book',
             book
         )
         .then(response => {
