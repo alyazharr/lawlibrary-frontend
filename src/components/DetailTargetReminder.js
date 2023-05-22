@@ -31,14 +31,14 @@ const DetailTargetReminder = () => {
   return (
       <div className={classes.content}>
       <div>
-        <h1>Berhasil memulai target membaca!</h1>
+        <h1>Your Reading Target has been Started!</h1>
         <hr></hr>
         <h1>{book.title}</h1>
       <img className={classes.img} src={book.image_url_l} style={{ margin:'5px', padding:'10px'}}></img>
         <h3>Author: {book.author}</h3>
-        <h3>Mulai membaca: {mulai}</h3>
-        <h3>Target selesai: {data.target_date}</h3>
-        <h3>Sisa waktu membaca: {getSelisih(data.target_date)} hari</h3>
+        <h3>Start Date: {mulai}</h3>
+        <h3>End Date Target: {data.target_date}</h3>
+        <h3>Time Remaining: {getSelisih(data.target_date)} days</h3>
         <div className={classes.item}>
         <Link to="/home"><button className="btn btn-secondary">
               Back 

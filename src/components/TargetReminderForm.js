@@ -27,7 +27,7 @@ function TargetReminderForm(props) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (tglselesai < getCurrentDate2()){
-        setErrMsg("Tanggal selesai membaca tidak valid. Tanggal yang diisi tidak boleh sebelum tanggal mulai membaca.")
+        setErrMsg("The target date is invalid. Target date must be filled with a date after today (or today).")
     } else {
         setErrMsg('')
     try {
@@ -49,7 +49,7 @@ function TargetReminderForm(props) {
 
   return (
     <div className={classes.content}>
-    <h1>Target Membaca</h1>
+    <h1>Reading Target Reminder</h1>
     <br></br>
         <div key={book.id}>
       <img className={classes.img} src={book.image_url_l}></img>
@@ -58,11 +58,11 @@ function TargetReminderForm(props) {
         <h2>{book.title}</h2>
         <div className={classes.item}>
             <hr></hr>
-        <h4>Tanggal Mulai Membaca:</h4>
+        <h4>Start Date (today):</h4>
         <h4>{getCurrentDate()}</h4>
         </div>
         <div className={classes.item}>
-          <h4 htmlFor='username'>Tanggal Target Selesai:</h4>
+          <h4 htmlFor='username'>End Date Target:</h4>
           <div className={classes.formdate}>
            <input
             type="date"

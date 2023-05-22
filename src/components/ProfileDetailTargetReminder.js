@@ -32,14 +32,14 @@ const ProfileDetailTargetReminder = () => {
   return (
       <div className={classes.content}>
       <div>
-        <h1>Detail Target Membaca</h1>
+        <h1>Reading Target Detail</h1>
         <hr></hr>
         <h1>{book.title}</h1>
       <img className={classes.img} src={book.image_url_l} style={{ margin:'5px', padding:'10px'}}></img>
         <h3>Author: {book.author}</h3>
-        <h3>Mulai membaca: {mulai}</h3>
-        <h3>Target selesai: {data.target_date}</h3>
-        {getSelisih(data.target_date)<0 ?<h3>Status: sudah melewati target selesai</h3>:<h3>Sisa waktu membaca: {getSelisih(data.target_date)} hari</h3>}
+        <h3>Start Date: {mulai}</h3>
+        <h3>End Date Target: {data.target_date}</h3>
+        {getSelisihNumb(data.target_date)<0 ?<h3>Status: Done</h3>:<h3>Time Remaining: {getSelisih(data.target_date)}</h3>}
 
         <div className={classes.item}>
         <Link to="/profile"><button className="btn btn-secondary">
@@ -53,6 +53,18 @@ const ProfileDetailTargetReminder = () => {
 }
 
 function getSelisih(selesai){
+  let hariini = new Date(getCurrentDate())
+  let selesaia = new Date(selesai)
+  const diffTime = (selesaia - hariini);
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
+  
+  if (diffDays==0) {
+    return 'Due today'
+  }
+  return diffDays + ' days'
+}
+
+function getSelisihNumb(selesai){
   let hariini = new Date(getCurrentDate())
   let selesaia = new Date(selesai)
   const diffTime = (selesaia - hariini);

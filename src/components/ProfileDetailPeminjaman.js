@@ -56,14 +56,14 @@ const ProfileDetailPeminjaman = () => {
         <h3>Author: {book.author}</h3>
         <h3>Start Date: {mulai}</h3>
         <h3>End Date: {data.return_date}</h3>
-        {data.status == 'dikembalikan' | data.status == 'pengembalian' ? null:<h3>Time remaining: {getSelisih(data.return_date)} days</h3>}
+        {data.status == 'dikembalikan' | data.status == 'pengembalian' | data.status == 'ditolak'? null:<h3>Time remaining: {getSelisih(data.return_date)} days</h3>}
         <h3>Status: {cekStatus(data.status, data.return_date)}</h3>
         <div className={classes.item}>
         <Link to="/profile"><button className="btn btn-secondary">
               Back 
             </button>
             </Link>
-        {data.status == 'dikembalikan' |  data.status == 'pengembalian'? null:<button className="btn btn-success" onClick={handleSubmit}>Return Book</button>}
+        {data.status == 'dipinjam'? <button className="btn btn-success" onClick={handleSubmit}>Return Book</button>:null}
         </div>
     </div>
     </div>
@@ -93,6 +93,8 @@ function cekStatus(status, selesai){
       return 'In request, ask the librarian to accept your request.'
   } if (status=='pengembalian') {
     return 'In request to return book, ask the librarian to accept your request.'
+  } if (status=='ditolak') {
+    return 'Borrowing request is rejected.'
   } else {
     return 'Returned'
   }
