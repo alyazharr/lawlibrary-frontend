@@ -49,20 +49,14 @@ const DetailPeminjamanAdmin = () => {
       try {
       const url = 'http://34.27.70.84/book/konfirmasi-pinjam?idpeminjaman='+param+'&returndate='+getCurrentDate()
       const res = await PrivateAxios.put(url)
-      let updatedStok = book.stok+1;
-      console.log("stok: "+updatedStok)
-      let urlUpdate = 'http://34.27.70.84/stock/update?id='+params.idbuku+'&stok='+updatedStok
-      const hasil = await PrivateAxios.put(urlUpdate)
 
     .catch(error => {
         console.log("API put failed", error)
     });
-      if (res.status === 200 && hasil.status === 200) {
+      if (res.status === 200) {
           console.log(res['data'])
-          console.log('hasil'+hasil['data'])
           window.location.reload();
       } else {
-          console.log(hasil.status)
       }
     } catch (err) {
       console.log(err);
@@ -89,11 +83,13 @@ const DetailPeminjamanAdmin = () => {
   const handleConfirmPengembalian = (param) => async e => {
       e.preventDefault()
       try {
-      const url = 'http://34.27.70.84/book/konfirmasi-pengembalian?idpeminjaman='+param
+        const url = 'http://34.27.70.84/book/konfirmasi-pengembalian?idpeminjaman='+param.id+'&returndate='+getCurrentDate()
+
       const res = await PrivateAxios.put(url)
       let updatedStok = book.stok+1;
       console.log("stok: "+updatedStok)
       let urlUpdate = 'http://34.27.70.84/stock/update?id='+params.idbuku+'&stok='+updatedStok
+          console.log("url ",urlUpdate)
       const hasil = await PrivateAxios.put(urlUpdate)
     .catch(error => {
         console.log("API put failed", error)
@@ -133,7 +129,7 @@ const DetailPeminjamanAdmin = () => {
             <button className="btn btn-danger" onClick={handleReject(data.id)}>
                     Reject 
                   </button></div>}
-        {data.status != 'pengembalian' ? null: <div><button className="btn btn-success" onClick={handleConfirmPengembalian(data.id)}> Confirm 
+        {data.status != 'pengembalian' ? null: <div><button className="btn btn-success" onClick={handleConfirmPengembalian(data)}> Confirm
                   </button>
                    
             <button className="btn btn-danger" onClick={handleRejectPengembalian(data.id)}>
